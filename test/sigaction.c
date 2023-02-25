@@ -17,12 +17,12 @@
 // 	void		(*sa_restorer)(void);
 // };
 
-bool	fin;
+volatile sig_atomic_t	g_finish = 0;
 
 void	signal_handler(int signum)
 {
 	if (signum == SIGTERM)
-		fin = true;
+		g_finish = 1;
 	else
 		write(1, "not stop\n", 10);
 }
@@ -42,12 +42,12 @@ int	main(void)
 	if (sigaction(SIGINT, &sa, NULL) == ERROR)
 		exit(EXIT_FAILURE);
 	i = 0;
-	while (!fin)
+	while (!g_finish)
 	{
 		printf("%zu\n", i);
 		sleep(1);
 		i++;
 	}
-	puts("finish!!");
+	printf("finish!!");
 	return (0);
 }

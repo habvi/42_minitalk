@@ -33,5 +33,5 @@ int main(void)
 		printf("%d\n", j);
 		sleep(2);
 	}
-	return 0;
+	return (0);
 }
