@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	}
 
 	// success: 0, error: -1
-	int res = kill(pid, SIGQUIT);
+	int res = kill(pid, SIGUSR1);
 	if (res == ERROR)
 	{
 		if (errno == EPERM)

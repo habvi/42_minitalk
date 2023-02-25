@@ -21,10 +21,13 @@ volatile sig_atomic_t	g_finish = 0;
 
 void	signal_handler(int signum)
 {
-	if (signum == SIGTERM)
+	if (signum == SIGUSR1)
+	{
+		write(1, "1 dayo\n", 8);
 		g_finish = 1;
-	else
-		write(1, "not stop\n", 10);
+	}
+	else if (signum == SIGUSR2)
+		write(1, "2 dayo\n", 8);
 }
 
 int	main(void)
@@ -39,7 +42,9 @@ int	main(void)
 		exit(EXIT_FAILURE);
 	sa.sa_handler = signal_handler;
 	sa.sa_flags = 0;
-	if (sigaction(SIGINT, &sa, NULL) == ERROR)
+	if (sigaction(SIGUSR1, &sa, NULL) == ERROR)
+		exit(EXIT_FAILURE);
+	if (sigaction(SIGUSR2, &sa, NULL) == ERROR)
 		exit(EXIT_FAILURE);
 	i = 0;
 	while (!g_finish)
