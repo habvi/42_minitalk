@@ -6,30 +6,38 @@
 #include <limits.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include "minitalk.h"
 
-int main(int argc, char *argv[])
+static bool	is_valid_args(const int argc)
 {
-	pid_t	pid;
-
 	if (argc != 3)
 	{
-		printf("usage : %s pid\n", argv[0]);
-		exit(EXIT_FAILURE);
+		printf("usage : tell me PID!!\n");
+		return (false);
 	}
-	pid = atoi(argv[1]);
-	printf("client pid %d\n", pid);
-	if (pid <= 0)
-	{
-		printf("invalid pid : %d\n", pid);
-		exit(EXIT_FAILURE);
-	}
+	return (true);
+}
 
-	const char	*message = argv[2];
-	printf("received message: %s\n", message);
+static bool	is_valid_pid(char *argv[], pid_t *pid)
+{
+	*pid = atoi(argv[1]);
+	// atoi error or pid <= 0
+	if (*pid <= 0)
+	{
+		printf("invalid pid : %d\n", *pid);
+		return (false);
+	}
+	printf("client pid %d\n", *pid);
+	return (true);
+}
+
+static void	send_message(const pid_t pid, const char *message)
+{
 	uint8_t	i;
 	uint8_t	j;
 	char	c;
+
 	i = 0;
 	while (message[i])
 	{
@@ -60,23 +68,18 @@ int main(int argc, char *argv[])
 		usleep(500);
 		i++;
 	}
+}
 
-	// success: 0, error: -1
-	// int res = kill(pid, SIGUSR1);
-	// if (res == ERROR)
-	// {
-	// 	if (errno == EPERM)
-	// 		printf("process exists, but don't have permission to send it a signal\n");
-	// 	else if (errno == ESRCH)
-	// 		printf("process doesn't exist\n");
-	// 	else
-	// 	{
-	// 		perror("kill");
-	// 		exit(EXIT_FAILURE);
-	// 	}
-	// }
-	// else
-	// 	printf("process exists, success to send it a signal\n");
+int	main(int argc, char *argv[])
+{
+	pid_t	pid;
+
+	if (!is_valid_args(argc))
+		return (EXIT_FAILURE);
+	if (!is_valid_pid(argv, &pid))
+		return (EXIT_FAILURE);
+	printf("send message from client: %s\n", argv[2]);
+	send_message(pid, argv[2]);
 	exit(EXIT_SUCCESS);
 }
 
