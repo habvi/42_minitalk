@@ -42,6 +42,7 @@ static bool	put_message(void)
 	{
 		if (c == '\0')
 		{
+			// to do
 			g_signum = 0;
 			len = 0;
 			c = 0;
@@ -49,6 +50,7 @@ static bool	put_message(void)
 		}
 		if (write(STDOUT_FILENO, &c, 1) == ERROR)
 			return (false);
+		// to do
 		g_signum = 0;
 		len = 0;
 		c = 0;

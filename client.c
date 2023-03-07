@@ -13,6 +13,7 @@ static bool	is_valid_args(const int argc)
 {
 	if (argc != 3)
 	{
+		// to do
 		printf("usage : tell me PID!!\n");
 		return (false);
 	}
@@ -22,7 +23,7 @@ static bool	is_valid_args(const int argc)
 static bool	is_valid_pid(char *argv[], pid_t *pid)
 {
 	*pid = atoi(argv[1]);
-	// atoi error or pid <= 0
+	// to do: atoi error or pid <= 0
 	if (*pid <= 0)
 	{
 		printf("invalid pid : %d\n", *pid);
@@ -60,6 +61,7 @@ static void	send_message(const pid_t pid, const char *message)
 		}
 		i++;
 	}
+	// to do
 	i = 0;
 	while (i < CHAR_BIT)
 	{
@@ -79,6 +81,7 @@ int	main(int argc, char *argv[])
 	if (!is_valid_pid(argv, &pid))
 		return (EXIT_FAILURE);
 	printf("send message from client: %s\n", argv[2]);
+	// to do
 	send_message(pid, argv[2]);
 	exit(EXIT_SUCCESS);
 }
@@ -94,3 +97,6 @@ kill PID      (SIGQUIT)
 ---
 
 */
+
+// to do
+// printf, atoi, memset -> ft
