@@ -33,11 +33,12 @@ static bool	is_valid_pid(char *argv[], pid_t *pid)
 	return (true);
 }
 
-static void	send_message(const pid_t pid, const char *message)
+static bool	send_message(const pid_t pid, const char *message)
 {
 	uint8_t	i;
 	uint8_t	j;
 	char	c;
+	int		result;
 
 	i = 0;
 	while (message[i])
@@ -47,15 +48,11 @@ static void	send_message(const pid_t pid, const char *message)
 		while (j < CHAR_BIT)
 		{
 			if (((c >> (CHAR_BIT - j - 1)) & 1) == 0)
-			{
-				if (kill(pid, SIGUSR1) == ERROR)
-					exit(EXIT_FAILURE);
-			}
+				result = kill(pid, SIGUSR1);
 			else
-			{
-				if (kill(pid, SIGUSR2) == ERROR)
-					exit(EXIT_FAILURE);
-			}
+				result = kill(pid, SIGUSR2);
+			if (result == ERROR)
+				return (false);
 			usleep(500);
 			j++;
 		}
@@ -66,10 +63,11 @@ static void	send_message(const pid_t pid, const char *message)
 	while (i < CHAR_BIT)
 	{
 		if (kill(pid, SIGUSR1) == ERROR)
-			exit(EXIT_FAILURE);
+			return (false);
 		usleep(500);
 		i++;
 	}
+	return (true);
 }
 
 int	main(int argc, char *argv[])
@@ -82,7 +80,8 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	printf("send message from client: %s\n", argv[2]);
 	// to do
-	send_message(pid, argv[2]);
+	if (!send_message(pid, argv[2]))
+		return (EXIT_FAILURE);
 	exit(EXIT_SUCCESS);
 }
 
