@@ -6,16 +6,6 @@
 #include "ft_printf.h"
 #include "minitalk.h"
 
-// int sigaction(int sig, const struct sigaction *__restrict__ new, struct sigaction *__restrict__ old);
-
-// struct sigaction {
-// 	void		(*sa_handler)(int);
-// 	void		(*sa_sigaction)(int, siginfo_t *, void *);
-// 	sigset_t	sa_mask;
-// 	int			sa_flags;
-// 	void		(*sa_restorer)(void);
-// };
-
 volatile sig_atomic_t	g_signum = 0;
 
 static bool	put_server_pid(void)
