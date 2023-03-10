@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "libft.h"
 #include "minitalk.h"
+#include <stdio.h>
 
 // int sigaction(int sig, const struct sigaction *__restrict__ new, struct sigaction *__restrict__ old);
 
@@ -47,14 +48,17 @@ static bool	set_sigaction(struct sigaction *sa)
 
 static bool	put_message(void)
 {
-	static uint8_t	len = 0;
-	static int		c = 0;
+	static uint8_t			len = 0;
+	static unsigned char	c = 0;
 
 	if (g_signum == SIGUSR1)
 		c <<= 1;
 	else if (g_signum == SIGUSR2)
 		c = (c << 1) | 1;
+	else
+		printf("hogeeee\n");
 	len++;
+	// printf("%d [%c]\n", len, c);
 	if (len == CHAR_BIT)
 	{
 		// if (ft_putchar_fd(c, STDOUT_FILENO) == ERROR)
@@ -72,18 +76,18 @@ int	main(void)
 	struct sigaction	sa;
 
 	if (!put_server_pid())
-		return (EXIT_FAILURE);
+		return (error_exit(ERROR_WRITE));
 	if (!set_sigaction(&sa))
-		return (EXIT_FAILURE);
+		return (error_exit(ERROR_SIGACTION));
 	if (sigaction(SIGUSR1, &sa, NULL) == ERROR)
-		return (EXIT_FAILURE);
+		return (error_exit(ERROR_SIGACTION));
 	if (sigaction(SIGUSR2, &sa, NULL) == ERROR)
-		return (EXIT_FAILURE);
+		return (error_exit(ERROR_SIGACTION));
 	while (true)
 	{
 		pause();
 		if (!put_message())
-			return (EXIT_FAILURE);
+			return (error_exit(ERROR_WRITE));
 	}
 	return (EXIT_SUCCESS);
 }

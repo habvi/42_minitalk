@@ -2,8 +2,8 @@ CLIENT				:=	client
 SERVER				:=	server
 
 # mandatory
-CLIENT_SRC			:=	client.c
-SERVER_SRC			:=	server.c
+CLIENT_SRC			:=	client.c error.c
+SERVER_SRC			:=	server.c error.c
 
 OBJ_DIR				:=	obj
 CLIENT_OBJ			:=	$(CLIENT_SRC:%.c=$(OBJ_DIR)/%.o)
@@ -13,7 +13,7 @@ SERVER_OBJ			:=	$(SERVER_SRC:%.c=$(OBJ_DIR)/%.o)
 CLIENT_SRC_BONUS	:=	client_bonus.c
 SERVER_SRC_BONUS	:=	server_bonus.c
 
-SRCS				:=	$(CLIENT_SRC) $(SERVER_SRC) $(CLIENT_SRC_BONUS) $(SERVER_SRC_BONUS) minitalk.h
+SRCS				:=	$(CLIENT_SRC) $(SERVER_SRC) $(CLIENT_SRC_BONUS) $(SERVER_SRC_BONUS)
 
 # ok..?
 ifeq ($(MAKECMDGOALS), bonus)

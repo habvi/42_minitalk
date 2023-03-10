@@ -6,6 +6,7 @@
 #include <string.h>
 #include <limits.h>
 #include <stdint.h>
+#include "libft.h"
 #include "minitalk.h"
 
 // int sigaction(int sig, const struct sigaction *__restrict__ new, struct sigaction *__restrict__ old);

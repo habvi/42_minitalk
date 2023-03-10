@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include "libft.h"
 #include "minitalk.h"
 
 static bool	is_valid_args(const int argc)
@@ -70,9 +71,9 @@ static bool	send_message(const pid_t pid, const char *message)
 	return (true);
 }
 
-static void signal_handler(int signum)
+static void	signal_handler(int signum)
 {
-	static int count = 0;
+	static int	count = 0;
 
 	if (signum == SIGUSR1)
 	{
@@ -91,6 +92,7 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	if (!is_valid_pid(argv, &pid))
 		return (EXIT_FAILURE);
+	// -> sigaction
 	if (signal(SIGUSR1, signal_handler) == SIG_ERR)
 		exit(EXIT_FAILURE);
 	printf("send message from client: %s\n", argv[2]);
