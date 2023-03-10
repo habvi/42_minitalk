@@ -1,10 +1,10 @@
-#include <unistd.h> // getpid, pause, write
 #include <signal.h> // sigaction
+#include <unistd.h> // getpid, pause, write
 #include <stdbool.h>
 #include <stdint.h>
 #include "libft.h"
+#include "ft_printf.h"
 #include "minitalk.h"
-#include <stdio.h>
 
 // int sigaction(int sig, const struct sigaction *__restrict__ new, struct sigaction *__restrict__ old);
 
@@ -20,10 +20,8 @@ volatile sig_atomic_t	g_signum = 0;
 
 static bool	put_server_pid(void)
 {
-	// to do: error
-	ft_putstr_fd("server pid: ", STDOUT_FILENO);
-	ft_putnbr_fd(getpid(), STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
+	if (ft_printf("%s %d\n", "server pid:", getpid()) == ERROR)
+		return (false);
 	return (true);
 }
 
@@ -58,15 +56,11 @@ static bool	put_message(void)
 	}
 	else if (g_signum == SIGUSR2)
 		c = (c << 1) | 1;
-	else
-		printf("hogeeee\n");
 	len++;
 	if (len == CHAR_BIT)
 	{
-		// if (ft_putchar_fd(c, STDOUT_FILENO) == ERROR)
-		if (write(STDOUT_FILENO, &c, 1) == ERROR)
+		if (ft_printf("%c", c) == ERROR)
 			return (false);
-		// printf("%c", c);
 		g_signum = 0;
 		len = 0;
 		c = 0;
@@ -79,22 +73,18 @@ int	main(void)
 	struct sigaction	sa;
 
 	if (!put_server_pid())
-		return (error_exit(ERROR_WRITE));
+		return (error_exit(ERROR_MSG_WRITE));
 	if (!set_sigaction(&sa))
-		return (error_exit(ERROR_SIGACTION));
+		return (error_exit(ERROR_MSG_SIGACTION));
 	if (sigaction(SIGUSR1, &sa, NULL) == ERROR)
-		return (error_exit(ERROR_SIGACTION));
+		return (error_exit(ERROR_MSG_SIGACTION));
 	if (sigaction(SIGUSR2, &sa, NULL) == ERROR)
-		return (error_exit(ERROR_SIGACTION));
-	// size_t i = 0;
+		return (error_exit(ERROR_MSG_SIGACTION));
 	while (true)
 	{
 		pause();
 		if (!put_message())
-			return (error_exit(ERROR_WRITE));
-		// if (i % 256 == 0)
-		// 	printf("\n");
-		// i++;
+			return (error_exit(ERROR_MSG_WRITE));
 	}
 	return (EXIT_SUCCESS);
 }

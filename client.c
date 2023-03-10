@@ -3,15 +3,15 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "libft.h"
+#include "ft_printf.h"
 #include "minitalk.h"
 
 static bool	is_valid_args(const int argc)
 {
 	if (argc != 3)
 	{
-		// to do: error
-		ft_putstr_fd("usage: ./client <PID> <message>\n", STDOUT_FILENO);
-		return (false);
+		if (ft_printf("%s\n", "usage: ./client <PID> <message>") == ERROR)
+			return (false);
 	}
 	return (true);
 }
@@ -22,14 +22,11 @@ static bool	is_valid_pid(char *argv[], pid_t *pid)
 	// to do: atoi error or pid <= 0, atoi_with_bool
 	if (*pid <= 0)
 	{
-		// to do: error
-		ft_putstr_fd("Error: invalid pid\n", STDOUT_FILENO);
-		return (false);
+		if (ft_printf("%s\n", ERROR_MSG_PID) == ERROR)
+			return (false);
 	}
-	// to do: error
-	ft_putstr_fd("send message to pid: ", STDOUT_FILENO);
-	ft_putnbr_fd(*pid, STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
+	if (ft_printf("%s %d\n", "send message to pid:", *pid) == ERROR)
+		return (false);
 	return (true);
 }
 
@@ -44,6 +41,7 @@ static bool	send_message(const pid_t pid, const char *message)
 	while (message[i])
 	{
 		c = message[i];
+		// to do
 		j = 0;
 		while (j < CHAR_BIT)
 		{
@@ -53,7 +51,7 @@ static bool	send_message(const pid_t pid, const char *message)
 				result = kill(pid, SIGUSR2);
 			if (result == ERROR)
 				return (false);
-			usleep(500);
+			usleep(2000);
 			j++;
 		}
 		i++;
@@ -66,11 +64,11 @@ int	main(int argc, char *argv[])
 	pid_t	pid;
 
 	if (!is_valid_args(argc))
-		return (error_exit(ERROR_ARGS));
+		return (error_exit(ERROR_MSG_ARGS));
 	if (!is_valid_pid(argv, &pid))
-		return (error_exit(ERROR_WRITE));
+		return (error_exit(ERROR_MSG_WRITE));
 	if (!send_message(pid, argv[2]))
-		return (error_exit(ERROR_KILL));
+		return (error_exit(ERROR_MSG_KILL));
 	return (EXIT_SUCCESS);
 }
 
