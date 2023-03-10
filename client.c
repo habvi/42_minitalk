@@ -35,8 +35,8 @@ static bool	is_valid_pid(char *argv[], pid_t *pid)
 
 static bool	send_message(const pid_t pid, const char *message)
 {
-	uint8_t			i;
-	uint8_t			j;
+	size_t			i;
+	size_t			j;
 	unsigned char	c;
 	int				result;
 
@@ -47,13 +47,13 @@ static bool	send_message(const pid_t pid, const char *message)
 		j = 0;
 		while (j < CHAR_BIT)
 		{
-			if (((c >> (CHAR_BIT - j - 1)) & 1) == 0)
+			if ((c & (1U << (CHAR_BIT - j - 1))) == 0)
 				result = kill(pid, SIGUSR1);
 			else
 				result = kill(pid, SIGUSR2);
 			if (result == ERROR)
 				return (false);
-			usleep(5000);
+			usleep(500);
 			j++;
 		}
 		i++;
@@ -73,3 +73,8 @@ int	main(int argc, char *argv[])
 		return (error_exit(ERROR_KILL));
 	return (EXIT_SUCCESS);
 }
+
+/*
+c2 :  0000 0000 0000 0000 0000 0000 1100 0010
+a   : 0000 0000 0000 0000 0000 0000 0110 0001
+ */

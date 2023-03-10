@@ -48,22 +48,25 @@ static bool	set_sigaction(struct sigaction *sa)
 
 static bool	put_message(void)
 {
-	static uint8_t			len = 0;
+	static size_t			len = 0;
 	static unsigned char	c = 0;
 
 	if (g_signum == SIGUSR1)
+	{
+		// c |= (1U << n);
 		c <<= 1;
+	}
 	else if (g_signum == SIGUSR2)
 		c = (c << 1) | 1;
 	else
 		printf("hogeeee\n");
 	len++;
-	// printf("%d [%c]\n", len, c);
 	if (len == CHAR_BIT)
 	{
 		// if (ft_putchar_fd(c, STDOUT_FILENO) == ERROR)
 		if (write(STDOUT_FILENO, &c, 1) == ERROR)
 			return (false);
+		// printf("%c", c);
 		g_signum = 0;
 		len = 0;
 		c = 0;
@@ -83,11 +86,15 @@ int	main(void)
 		return (error_exit(ERROR_SIGACTION));
 	if (sigaction(SIGUSR2, &sa, NULL) == ERROR)
 		return (error_exit(ERROR_SIGACTION));
+	// size_t i = 0;
 	while (true)
 	{
 		pause();
 		if (!put_message())
 			return (error_exit(ERROR_WRITE));
+		// if (i % 256 == 0)
+		// 	printf("\n");
+		// i++;
 	}
 	return (EXIT_SUCCESS);
 }
