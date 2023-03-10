@@ -20,18 +20,17 @@
 
 volatile sig_atomic_t	g_signum = 0;
 
-void	signal_handler(int signum)
+void	signal_handler(int signum, siginfo_t *info, void *context)
 {
-	if (signum == SIGUSR1)
-		g_signum = SIGUSR1;
-	else if (signum == SIGUSR2)
-		g_signum = SIGUSR2;
+	(void)info;
+	(void)context;
+	g_signum = signum;
 }
 
 static bool	put_message(void)
 {
 	static uint8_t	len = 0;
-	static char		c = 0;
+	static int		c = 0;
 
 	if (g_signum == SIGUSR1)
 		c <<= 1;
@@ -40,17 +39,8 @@ static bool	put_message(void)
 	len++;
 	if (len == CHAR_BIT)
 	{
-		if (c == '\0')
-		{
-			// to do
-			g_signum = 0;
-			len = 0;
-			c = 0;
-			return (true);
-		}
 		if (write(STDOUT_FILENO, &c, 1) == ERROR)
 			return (false);
-		// to do
 		g_signum = 0;
 		len = 0;
 		c = 0;
@@ -63,12 +53,13 @@ int	main(void)
 	struct sigaction	sa;
 
 	printf("pid %d\n", getpid());
-	memset(&sa, 0, sizeof(sa)); // いる？
+	memset(&sa, 0, sizeof(sa));
 	if (sigemptyset(&sa.sa_mask) == ERROR)
 		return (EXIT_FAILURE);
-	sa.sa_handler = signal_handler;
-	// to do: set
-	sa.sa_flags = 0;
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = signal_handler;
 	if (sigaction(SIGUSR1, &sa, NULL) == ERROR)
 		return (EXIT_FAILURE);
 	if (sigaction(SIGUSR2, &sa, NULL) == ERROR)

@@ -37,7 +37,7 @@ static bool	send_message(const pid_t pid, const char *message)
 {
 	uint8_t	i;
 	uint8_t	j;
-	char	c;
+	int		c;
 	int		result;
 
 	i = 0;
@@ -58,15 +58,6 @@ static bool	send_message(const pid_t pid, const char *message)
 		}
 		i++;
 	}
-	// to do
-	i = 0;
-	while (i < CHAR_BIT)
-	{
-		if (kill(pid, SIGUSR1) == ERROR)
-			return (false);
-		usleep(500);
-		i++;
-	}
 	return (true);
 }
 
@@ -79,23 +70,10 @@ int	main(int argc, char *argv[])
 	if (!is_valid_pid(argv, &pid))
 		return (EXIT_FAILURE);
 	printf("send message from client: %s\n", argv[2]);
-	// to do
 	if (!send_message(pid, argv[2]))
 		return (EXIT_FAILURE);
 	exit(EXIT_SUCCESS);
 }
-
-/*
-./server
-./client PID
----
-./server
-kill -2 PID   (SIGINT)
-kill -INT PID (SIGINT)
-kill PID      (SIGQUIT)
----
-
-*/
 
 // to do
 // printf, atoi, memset -> ft
