@@ -1,20 +1,16 @@
-#include <stdio.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <limits.h>
-#include <unistd.h>
-#include <stdint.h>
+#include <signal.h> // kill
+#include <unistd.h> // usleep
 #include <stdbool.h>
+#include <stdint.h>
+#include "libft.h"
 #include "minitalk.h"
 
 static bool	is_valid_args(const int argc)
 {
 	if (argc != 3)
 	{
-		// to do
-		printf("usage : tell me PID!!\n");
+		// to do: error
+		ft_putstr_fd("usage: ./client <PID> <message>\n", STDOUT_FILENO);
 		return (false);
 	}
 	return (true);
@@ -22,14 +18,18 @@ static bool	is_valid_args(const int argc)
 
 static bool	is_valid_pid(char *argv[], pid_t *pid)
 {
-	*pid = atoi(argv[1]);
-	// to do: atoi error or pid <= 0
+	*pid = ft_atoi(argv[1]);
+	// to do: atoi error or pid <= 0, atoi_with_bool
 	if (*pid <= 0)
 	{
-		printf("invalid pid : %d\n", *pid);
+		// to do: error
+		ft_putstr_fd("Error: invalid pid\n", STDOUT_FILENO);
 		return (false);
 	}
-	printf("client pid %d\n", *pid);
+	// to do: error
+	ft_putstr_fd("send message to pid: ", STDOUT_FILENO);
+	ft_putnbr_fd(*pid, STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
 	return (true);
 }
 
@@ -69,11 +69,7 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	if (!is_valid_pid(argv, &pid))
 		return (EXIT_FAILURE);
-	printf("send message from client: %s\n", argv[2]);
 	if (!send_message(pid, argv[2]))
 		return (EXIT_FAILURE);
-	exit(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
-
-// to do
-// printf, atoi, memset -> ft
