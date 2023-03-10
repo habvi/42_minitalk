@@ -1,6 +1,7 @@
 CLIENT		:=	client
 SERVER		:=	server
 
+# mandatory
 CLIENT_SRC	:=	client.c
 SERVER_SRC	:=	server.c
 
@@ -8,6 +9,16 @@ OBJ_DIR		:=	obj
 CLIENT_OBJ	:=	$(CLIENT_SRC:%.c=$(OBJ_DIR)/%.o)
 SERVER_OBJ	:=	$(SERVER_SRC:%.c=$(OBJ_DIR)/%.o)
 
+# bonus
+CLIENT_SRC_BONUS	:=	client_bonus.c
+SERVER_SRC_BONUS	:=	server_bonus.c
+
+ifeq ($(MAKECMDGOALS), bonus)
+	CLIENT_OBJ = $(CLIENT_SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
+	SERVER_OBJ = $(SERVER_SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
+endif
+
+# include
 INCLUDE		:=	-I.
 DEPS		:=	$(OBJS:.o=.d)
 
@@ -32,14 +43,15 @@ $(SERVER): $(SERVER_OBJ)
 	$(CC) $(CFLAGS) $(SERVER_OBJ) -o $(SERVER)
 
 clean:
-	$(RM) $(CLIENT_OBJ) $(SERVER_OBJ)
+	$(RM) -r $(OBJ_DIR)
 
 fclean: clean
 	$(RM) $(CLIENT) $(SERVER)
 
 re: fclean all
 
-info:
-	$(info >>> default goal : $(.DEFAULT_GOAL))
+$(info >>> default goal : $(.DEFAULT_GOAL))
+$(info >>> client obj : $(CLIENT_OBJ))
+$(info >>> server obj : $(SERVER_OBJ))
 
 .PHONY: all clean fclean re bonus info
