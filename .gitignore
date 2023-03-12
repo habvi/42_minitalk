@@ -3,3 +3,4 @@ server
 obj/
 test/
 .vscode
+out

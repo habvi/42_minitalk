@@ -10,8 +10,10 @@ CLIENT_OBJ			:=	$(CLIENT_SRC:%.c=$(OBJ_DIR)/%.o)
 SERVER_OBJ			:=	$(SERVER_SRC:%.c=$(OBJ_DIR)/%.o)
 
 # bonus
-CLIENT_SRC_BONUS	:=	client_bonus.c
-SERVER_SRC_BONUS	:=	server_bonus.c
+COMMON_SRC			:=	error.c \
+						put_stderr.c
+CLIENT_SRC_BONUS	:=	client_bonus.c $(COMMON_SRC)
+SERVER_SRC_BONUS	:=	server_bonus.c $(COMMON_SRC)
 
 SRCS				:=	$(CLIENT_SRC) $(SERVER_SRC) $(CLIENT_SRC_BONUS) $(SERVER_SRC_BONUS)
 
