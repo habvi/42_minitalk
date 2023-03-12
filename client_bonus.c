@@ -1,13 +1,9 @@
-#include <stdio.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <limits.h>
-#include <unistd.h>
-#include <stdint.h>
+#include <signal.h> // kill
+#include <unistd.h> // usleep
 #include <stdbool.h>
+#include <stdint.h>
 #include "libft.h"
+#include "ft_printf.h"
 #include "minitalk.h"
 
 static bool	is_valid_args(const int argc)
@@ -15,7 +11,8 @@ static bool	is_valid_args(const int argc)
 	if (argc != 3)
 	{
 		// to do
-		printf("usage : tell me PID!!\n");
+		if (ft_printf("%s\n", MSG_USAGE) == ERROR)
+			return (false);
 		return (false);
 	}
 	return (true);
@@ -23,65 +20,47 @@ static bool	is_valid_args(const int argc)
 
 static bool	is_valid_pid(char *argv[], pid_t *pid)
 {
-	*pid = atoi(argv[1]);
-	// to do: atoi error or pid <= 0
-	if (*pid <= 0)
-	{
-		printf("invalid pid : %d\n", *pid);
+	if (!ft_atoi_with_bool(argv[1], pid))
 		return (false);
+	if (*pid <= 0)
+		return (false);
+	return (true);
+}
+
+static bool	send_char(const pid_t pid, const unsigned char byte)
+{
+	size_t	bit_shift;
+	size_t	bit_mask;
+	int		result;
+
+	bit_shift = 0;
+	while (bit_shift < CHAR_BIT)
+	{
+		bit_mask = 1U << bit_shift;
+		if ((byte & bit_mask) == 0)
+			result = kill(pid, SIGUSR1);
+		else
+			result = kill(pid, SIGUSR2);
+		if (result == ERROR)
+			return (false);
+		usleep(10000);
+		bit_shift++;
 	}
-	printf("client pid %d\n", *pid);
 	return (true);
 }
 
 static bool	send_message(const pid_t pid, const char *message)
 {
-	uint8_t	i;
-	uint8_t	j;
-	int		c;
-	int		result;
+	size_t	i;
 
 	i = 0;
 	while (message[i])
 	{
-		c = message[i];
-		j = 0;
-		while (j < CHAR_BIT)
-		{
-			if (((c >> (CHAR_BIT - j - 1)) & 1) == 0)
-				result = kill(pid, SIGUSR1);
-			else
-				result = kill(pid, SIGUSR2);
-			if (result == ERROR)
-				return (false);
-			usleep(500);
-			j++;
-		}
-		i++;
-	}
-	// to do: '\0'?
-	i = 0;
-	while (i < CHAR_BIT)
-	{
-		if (kill(pid, SIGUSR1) == ERROR)
+		if (!send_char(pid, message[i]))
 			return (false);
-		usleep(500);
 		i++;
 	}
 	return (true);
-}
-
-static void	signal_handler(int signum)
-{
-	static int	count = 0;
-
-	if (signum == SIGUSR1)
-	{
-		count++;
-		if (write(STDOUT_FILENO, "recieved message from server!", 30) == ERROR)
-			exit(EXIT_FAILURE);
-	}
-	exit(EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[])
@@ -89,18 +68,12 @@ int	main(int argc, char *argv[])
 	pid_t	pid;
 
 	if (!is_valid_args(argc))
-		return (EXIT_FAILURE);
+		return (error_exit(ERROR_MSG_ARGS));
 	if (!is_valid_pid(argv, &pid))
-		return (EXIT_FAILURE);
-	// -> sigaction
-	if (signal(SIGUSR1, signal_handler) == SIG_ERR)
-		exit(EXIT_FAILURE);
-	printf("send message from client: %s\n", argv[2]);
+		return (error_exit(ERROR_MSG_PID));
+	if (ft_printf("%s %d\n", MSG_SEND_PID, pid) == ERROR)
+		return (error_exit(ERROR_MSG_WRITE));
 	if (!send_message(pid, argv[2]))
-		return (EXIT_FAILURE);
-	pause();
-	exit(EXIT_SUCCESS);
+		return (error_exit(ERROR_MSG_KILL));
+	return (EXIT_SUCCESS);
 }
-
-// to do
-// printf, atoi, memset -> ft
