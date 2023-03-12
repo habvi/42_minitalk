@@ -36,24 +36,19 @@ static bool	set_sigaction(struct sigaction *sa)
 
 static bool	put_message(void)
 {
-	static size_t			len = 0;
-	static unsigned char	c = 0;
+	static size_t			bit_shift = 0;
+	static unsigned char	byte = 0;
 
-	if (g_signum == SIGUSR1)
+	if (g_signum == SIGUSR2)
+		byte |= (1U << bit_shift);
+	bit_shift++;
+	if (bit_shift == CHAR_BIT)
 	{
-		// c |= (1U << n);
-		c <<= 1;
-	}
-	else if (g_signum == SIGUSR2)
-		c = (c << 1) | 1;
-	len++;
-	if (len == CHAR_BIT)
-	{
-		if (ft_printf("%c", c) == ERROR)
+		if (ft_printf("%c", byte) == ERROR)
 			return (false);
 		g_signum = 0;
-		len = 0;
-		c = 0;
+		bit_shift = 0;
+		byte = 0;
 	}
 	return (true);
 }

@@ -29,15 +29,13 @@ static bool	is_valid_pid(char *argv[], pid_t *pid)
 
 static bool	send_char(const pid_t pid, const unsigned char byte)
 {
-	size_t	j;
 	size_t	bit_shift;
 	size_t	bit_mask;
 	int		result;
 
-	j = 0;
-	while (j < CHAR_BIT)
+	bit_shift = 0;
+	while (bit_shift < CHAR_BIT)
 	{
-		bit_shift = CHAR_BIT - j - 1;
 		bit_mask = 1U << bit_shift;
 		if ((byte & bit_mask) == 0)
 			result = kill(pid, SIGUSR1);
@@ -45,8 +43,8 @@ static bool	send_char(const pid_t pid, const unsigned char byte)
 			result = kill(pid, SIGUSR2);
 		if (result == ERROR)
 			return (false);
-		usleep(2000);
-		j++;
+		usleep(1000);
+		bit_shift++;
 	}
 	return (true);
 }
