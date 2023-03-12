@@ -18,8 +18,10 @@ static bool	put_server_pid(void)
 static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)context;
-	g_signal.signum = signum;
-	g_signal.client_pid = info->si_pid;
+	if (g_signal.signum == 0)
+		g_signal.client_pid = info->si_pid;
+	if (g_signal.client_pid == info->si_pid)
+		g_signal.signum = signum;
 }
 
 static bool	set_sigaction(struct sigaction *sa)
@@ -50,7 +52,7 @@ static bool	put_message(void)
 	{
 		if (byte == '\0')
 		{
-			put_str_int_to_stderr(" > client pid: ", g_signal.client_pid);
+			put_str_int_to_stderr("\n> client pid: ", g_signal.client_pid);
 			usleep(20000); // to do
 			if (kill(g_signal.client_pid, SIGUSR1) == ERROR)
 				return (false);
