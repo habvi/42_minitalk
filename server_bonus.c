@@ -48,12 +48,15 @@ static bool	put_message(void)
 	if (g_signal.signum == SIGUSR2)
 		byte |= (1U << bit_shift);
 	bit_shift++;
+	usleep(10000); // to do
+	if (kill(g_signal.client_pid, SIGUSR2) == ERROR)
+		return (false);
 	if (bit_shift == CHAR_BIT)
 	{
 		if (byte == '\0')
 		{
 			put_str_int_to_stderr("\n> client pid: ", g_signal.client_pid);
-			usleep(20000); // to do
+			usleep(10000); // to do
 			if (kill(g_signal.client_pid, SIGUSR1) == ERROR)
 				return (false);
 		}

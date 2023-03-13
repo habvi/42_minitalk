@@ -6,6 +6,9 @@
 #include "ft_printf.h"
 #include "minitalk.h"
 
+volatile sig_atomic_t	g_server_pid = 0;
+volatile sig_atomic_t	g_from_correct_server = 0;
+
 static bool	is_valid_args(const int argc)
 {
 	if (argc != 3)
@@ -43,26 +46,39 @@ static bool	send_char(const pid_t pid, const unsigned char byte)
 			result = kill(pid, SIGUSR2);
 		if (result == ERROR)
 			return (false);
+		usleep(5000); // to do
+		while (true)
+		{
+			pause();
+			// usleep(100);
+			// ft_printf("while\n");
+			if (g_from_correct_server == 1)
+			{
+				bit_shift++;
+				g_from_correct_server = 0;
+				break ;
+			}
+		}
 		usleep(10000); // to do
-		bit_shift++;
+		// bit_shift++;
 	}
 	return (true);
 }
 
-static bool	send_message(const pid_t pid, const char *message)
+static bool	send_message(const pid_t server_pid, const char *message)
 {
 	size_t	i;
 
-	if (ft_printf("send message to pid: %d\n", pid) == ERROR)
+	if (ft_printf("send message to pid: %d\n", server_pid) == ERROR)
 		return (false);
 	i = 0;
 	while (message[i])
 	{
-		if (!send_char(pid, message[i]))
+		if (!send_char(server_pid, message[i]))
 			return (false);
 		i++;
 	}
-	if (!send_char(pid, message[i]))
+	if (!send_char(server_pid, message[i]))
 		return (false);
 	return (true);
 }
@@ -70,8 +86,10 @@ static bool	send_message(const pid_t pid, const char *message)
 static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)signum;
-	(void)info;
 	(void)context;
+
+	if (g_server_pid == info->si_pid)
+		g_from_correct_server = 1;
 }
 
 static bool	set_sigaction(struct sigaction *sa)
@@ -80,25 +98,29 @@ static bool	set_sigaction(struct sigaction *sa)
 	if (sigemptyset(&sa->sa_mask) == ERROR)
 		return (false);
 	sigaddset(&sa->sa_mask, SIGUSR1);
+	sigaddset(&sa->sa_mask, SIGUSR2);
 	sa->sa_flags = SA_SIGINFO;
 	sa->sa_sigaction = signal_handler;
 	if (sigaction(SIGUSR1, sa, NULL) == ERROR)
+		return (false);
+	if (sigaction(SIGUSR2, sa, NULL) == ERROR)
 		return (false);
 	return (true);
 }
 
 int	main(int argc, char *argv[])
 {
-	pid_t				pid;
+	pid_t				server_pid;
 	struct sigaction	sa;
 
 	if (!is_valid_args(argc))
 		return (error_exit(ERROR_MSG_ARGS));
-	if (!is_valid_pid(argv, &pid))
+	if (!is_valid_pid(argv, &server_pid))
 		return (error_exit(ERROR_MSG_PID));
+	g_server_pid = server_pid;
 	if (!set_sigaction(&sa))
 		return (error_exit(ERROR_MSG_SIGACTION));
-	if (!send_message(pid, argv[2]))
+	if (!send_message(server_pid, argv[2]))
 		return (error_exit(ERROR_MSG_KILL)); // to do
 	pause();
 	if (ft_printf("recieved message from server!\n") == ERROR)
