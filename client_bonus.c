@@ -1,5 +1,5 @@
 #include <signal.h> // sigaction, kill
-#include <unistd.h> // usleep
+#include <unistd.h> // usleep, pause
 #include <stdbool.h>
 #include <stdint.h>
 #include "libft.h"
@@ -7,7 +7,7 @@
 #include "minitalk.h"
 
 volatile sig_atomic_t	g_server_pid = 0;
-volatile sig_atomic_t	g_from_correct_server = 0;
+volatile sig_atomic_t	g_is_correct_server_pid = 0;
 
 static bool	is_valid_args(const int argc)
 {
@@ -46,21 +46,17 @@ static bool	send_char(const pid_t pid, const unsigned char byte)
 			result = kill(pid, SIGUSR2);
 		if (result == ERROR)
 			return (false);
-		usleep(5000); // to do
 		while (true)
 		{
 			pause();
-			// usleep(100);
-			// ft_printf("while\n");
-			if (g_from_correct_server == 1)
+			if (g_is_correct_server_pid == 1)
 			{
 				bit_shift++;
-				g_from_correct_server = 0;
+				g_is_correct_server_pid = 0;
 				break ;
 			}
 		}
 		usleep(10000); // to do
-		// bit_shift++;
 	}
 	return (true);
 }
@@ -89,7 +85,7 @@ static void	signal_handler(int signum, siginfo_t *info, void *context)
 	(void)context;
 
 	if (g_server_pid == info->si_pid)
-		g_from_correct_server = 1;
+		g_is_correct_server_pid = 1;
 }
 
 static bool	set_sigaction(struct sigaction *sa)
