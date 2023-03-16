@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "libft.h"
 #include "ft_printf.h"
+#include "client.h"
 #include "minitalk.h"
 
 volatile sig_atomic_t	g_server_pid = 0;
@@ -94,12 +95,9 @@ static bool	set_sigaction(struct sigaction *sa)
 	if (sigemptyset(&sa->sa_mask) == ERROR)
 		return (false);
 	sigaddset(&sa->sa_mask, SIGUSR1);
-	sigaddset(&sa->sa_mask, SIGUSR2);
 	sa->sa_flags = SA_SIGINFO;
 	sa->sa_sigaction = signal_handler;
 	if (sigaction(SIGUSR1, sa, NULL) == ERROR)
-		return (false);
-	if (sigaction(SIGUSR2, sa, NULL) == ERROR)
 		return (false);
 	return (true);
 }

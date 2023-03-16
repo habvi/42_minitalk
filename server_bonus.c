@@ -4,9 +4,10 @@
 #include <stdint.h>
 #include "libft.h"
 #include "ft_printf.h"
+#include "server.h"
 #include "minitalk.h"
 
-s_signal	g_signal = {.signum = 0, .client_pid = 0};
+t_signal	g_signal = {.signum = 0, .client_pid = 0};
 
 static bool	put_server_pid(void)
 {
@@ -49,7 +50,7 @@ static bool	put_message(void)
 		byte |= (1U << bit_shift);
 	bit_shift++;
 	usleep(5000); // to do
-	if (kill(g_signal.client_pid, SIGUSR2) == ERROR)
+	if (kill(g_signal.client_pid, SIGUSR1) == ERROR)
 		return (false);
 	if (bit_shift == CHAR_BIT)
 	{
