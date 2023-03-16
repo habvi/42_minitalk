@@ -1,5 +1,5 @@
 #include "libft.h"
-#include "ft_printf.h"
+#include "ft_dprintf.h"
 #include "error.h"
 
 void	put_str_to_stderr(const char *str)
@@ -16,7 +16,7 @@ void	put_stderr(const char *str, const int num)
 
 bool	put_usage(t_error_code *error_code)
 {
-	if (ft_printf("%s\n", MSG_USAGE) == ERROR)
+	if (ft_dprintf("%s\n", MSG_USAGE) == ERROR)
 	{
 		*error_code = ERROR_WRITE_M;
 		return (false);
@@ -26,7 +26,7 @@ bool	put_usage(t_error_code *error_code)
 
 bool	put_server_pid(const pid_t server_pid, t_error_code *error_code)
 {
-	if (ft_printf("%s %d\n", MSG_SEND_PID, server_pid) == ERROR)
+	if (ft_dprintf("%s %d\n", MSG_SEND_PID, server_pid) == ERROR)
 	{
 		*error_code = ERROR_WRITE_M;
 		return (false);
@@ -36,7 +36,7 @@ bool	put_server_pid(const pid_t server_pid, t_error_code *error_code)
 
 bool	put_recieved_message(t_error_code *error_code)
 {
-	if (ft_printf("%s\n", MSG_RECIEVED) == ERROR)
+	if (ft_dprintf("%s\n", MSG_RECIEVED) == ERROR)
 	{
 		*error_code = ERROR_WRITE_M;
 		return (false);

@@ -8,7 +8,7 @@ SERVER				:=	server
 # common
 #--------------------------------------------
 COMMON_SRC			:=	error.c \
-						put_stderr.c
+						put.c
 
 #--------------------------------------------
 # obj dir
@@ -22,8 +22,7 @@ SERVER_OBJ_DIR		:=	obj_server
 CLIENT_DIR			:=	src_client
 SERVER_DIR			:=	src_server
 
-CLIENT_SRC			:=	client.c $(COMMON_SRC) \
-						args.c
+CLIENT_SRC			:=	client.c $(COMMON_SRC)
 SERVER_SRC			:=	server.c $(COMMON_SRC)
 
 # ifeq ($(MAKECMDGOALS), bonus)
@@ -38,7 +37,10 @@ SERVER_OBJS			:=	$(SERVER_SRC:%.c=$(SERVER_OBJ_DIR)/%.o)
 # bonus
 #--------------------------------------------
 CLIENT_SRC_BONUS	:=	client_bonus.c $(COMMON_SRC) \
-						args.c
+						args.c \
+						recieve.c \
+						send.c \
+						signal.c
 SERVER_SRC_BONUS	:=	server_bonus.c $(COMMON_SRC)
 
 CLIENT_OBJS_BONUS	:=	$(CLIENT_SRC_BONUS:%.c=$(CLIENT_OBJ_DIR)/%.o)
