@@ -2,18 +2,6 @@
 #include "ft_dprintf.h"
 #include "error.h"
 
-void	put_str_to_stderr(const char *str)
-{
-	ft_putstr_fd(str, STDERR_FILENO);
-}
-
-void	put_stderr(const char *str, const int num)
-{
-	ft_putstr_fd(str, STDERR_FILENO);
-	ft_putnbr_fd(num, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
-}
-
 bool	put_usage(t_error_code *error_code)
 {
 	if (ft_dprintf("%s\n", MSG_USAGE) == ERROR)

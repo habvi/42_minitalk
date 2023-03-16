@@ -28,8 +28,6 @@ bool	send_message(\
 		const pid_t server_pid, const char *message, t_error_code *error_code);
 
 // put.c
-void	put_str_to_stderr(const char *str);
-void	put_stderr(const char *str, const int num);
 bool	put_usage(t_error_code *error_code);
 bool	put_server_pid(const pid_t server_pid, t_error_code *error_code);
 bool	put_recieved_message(t_error_code *error_code);
