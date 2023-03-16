@@ -7,8 +7,7 @@
 #include "client.h"
 #include "minitalk.h"
 
-volatile sig_atomic_t	g_server_pid = 0;
-volatile sig_atomic_t	g_is_correct_server_pid = 0;
+t_pid	g_pid = {.server_pid = 0, .is_correct_server_pid = 0};
 
 static bool	is_valid_args(const int argc)
 {
@@ -50,10 +49,10 @@ static bool	send_char(const pid_t pid, const unsigned char byte)
 		while (true)
 		{
 			pause();
-			if (g_is_correct_server_pid == 1)
+			if (g_pid.is_correct_server_pid == 1)
 			{
 				bit_shift++;
-				g_is_correct_server_pid = 0;
+				g_pid.is_correct_server_pid = 0;
 				break ;
 			}
 		}
@@ -84,8 +83,8 @@ static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)signum;
 	(void)context;
-	if (g_server_pid == info->si_pid)
-		g_is_correct_server_pid = 1;
+	if (g_pid.server_pid == info->si_pid)
+		g_pid.is_correct_server_pid = 1;
 }
 
 static bool	set_sigaction(struct sigaction *sa)
@@ -110,15 +109,15 @@ int	main(int argc, char *argv[])
 		return (error_exit(ERROR_MSG_ARGS));
 	if (!is_valid_pid(argv, &server_pid))
 		return (error_exit(ERROR_MSG_PID));
-	g_server_pid = server_pid;
+	g_pid.server_pid = server_pid;
 	if (!set_sigaction(&sa))
 		return (error_exit(ERROR_MSG_SIGACTION));
-	if (!send_message(server_pid, argv[2]))
+	if (!send_message(g_pid.server_pid, argv[2]))
 		return (error_exit(ERROR_MSG_KILL)); // to do
 	while (true)
 	{
 		pause();
-		if (g_is_correct_server_pid == 1)
+		if (g_pid.is_correct_server_pid == 1)
 		{
 			if (ft_printf("%s\n", MSG_RECIEVED) == ERROR)
 				return (error_exit(ERROR_MSG_WRITE));
