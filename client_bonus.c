@@ -116,8 +116,15 @@ int	main(int argc, char *argv[])
 		return (error_exit(ERROR_MSG_SIGACTION));
 	if (!send_message(server_pid, argv[2]))
 		return (error_exit(ERROR_MSG_KILL)); // to do
-	pause();
-	if (ft_printf("recieved message from server!\n") == ERROR)
-		return (error_exit(ERROR_MSG_WRITE));
+	while (true)
+	{
+		pause();
+		if (g_is_correct_server_pid == 1)
+		{
+			if (ft_printf("recieved message from server!\n") == ERROR)
+				return (error_exit(ERROR_MSG_WRITE));
+			break ;
+		}
+	}
 	return (EXIT_SUCCESS);
 }
