@@ -8,7 +8,7 @@ SERVER				:=	server
 # common
 #------------------------------------------------------
 COMMON_SRC			:=	error.c \
-						put_stderr.c\
+						put_stderr.c
 
 #------------------------------------------------------
 # obj dir
@@ -58,7 +58,7 @@ OBJ_DIR				:=	obj
 # include
 #------------------------------------------------------
 INCLUDE_DIR			:=	include
-INCLUDES			:=	-I$(INCLUDE_DIR) -I$(LIBFT_DIR)/$(INCLUDE_DIR)/
+INCLUDES			:=	-I. -I$(LIBFT_DIR)/$(INCLUDE_DIR)/
 DEPS				:=	$(CLIENT_OBJS:.o=.d) $(SERVER_OBJS:.o=.d)
 
 #------------------------------------------------------

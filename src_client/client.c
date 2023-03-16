@@ -4,27 +4,36 @@
 #include <stdint.h>
 #include "libft.h"
 #include "ft_printf.h"
+#include "error.h"
 #include "client.h"
-#include "minitalk.h"
 
-static bool	is_valid_args(const int argc)
+static bool	is_valid_args(const int argc, t_error_code *error_code)
 {
 	if (argc != 3)
 	{
-		// to do
 		if (ft_printf("%s\n", MSG_USAGE) == ERROR)
+		{
+			*error_code = ERROR_WRITE_M;
 			return (false);
+		}
+		*error_code = INVALID_ARGS;
 		return (false);
 	}
 	return (true);
 }
 
-static bool	is_valid_pid(char *argv[], pid_t *pid)
+static bool	is_valid_pid(char *argv[], pid_t *pid, t_error_code *error_code)
 {
 	if (!ft_atoi_with_bool(argv[1], pid))
+	{
+		*error_code = INVALID_PID;
 		return (false);
+	}
 	if (*pid <= 0)
+	{
+		*error_code = INVALID_PID;
 		return (false);
+	}
 	return (true);
 }
 
@@ -50,7 +59,7 @@ static bool	send_char(const pid_t pid, const unsigned char byte)
 	return (true);
 }
 
-static bool	send_message(const pid_t pid, const char *message)
+static bool	send_message(const pid_t pid, const char *message, t_error_code *error_code)
 {
 	size_t	i;
 
@@ -58,7 +67,10 @@ static bool	send_message(const pid_t pid, const char *message)
 	while (message[i])
 	{
 		if (!send_char(pid, message[i]))
+		{
+			*error_code = ERROR_KILL;
 			return (false);
+		}
 		i++;
 	}
 	return (true);
@@ -66,15 +78,19 @@ static bool	send_message(const pid_t pid, const char *message)
 
 int	main(int argc, char *argv[])
 {
-	pid_t	pid;
+	pid_t			pid;
+	t_error_code	error_code;
 
-	if (!is_valid_args(argc))
-		return (error_exit(ERROR_MSG_ARGS));
-	if (!is_valid_pid(argv, &pid))
-		return (error_exit(ERROR_MSG_PID));
+	if (!is_valid_args(argc, &error_code))
+		error_exit(error_code);
+	if (!is_valid_pid(argv, &pid, &error_code))
+		error_exit(error_code);
 	if (ft_printf("%s %d\n", MSG_SEND_PID, pid) == ERROR)
-		return (error_exit(ERROR_MSG_WRITE));
-	if (!send_message(pid, argv[2]))
-		return (error_exit(ERROR_MSG_KILL));
+	{
+		error_code = ERROR_WRITE_M;
+		error_exit(error_code);
+	}
+	if (!send_message(pid, argv[2], &error_code))
+		error_exit(error_code);
 	return (EXIT_SUCCESS);
 }

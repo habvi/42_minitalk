@@ -1,8 +1,13 @@
 #include "ft_printf.h"
-#include "minitalk.h"
+#include "error.h"
 
-int	error_exit(const char *error_message)
+void	error_exit(const t_error_code error_code)
 {
-	ft_printf("%s\n", error_message);
-	return (EXIT_FAILURE);
+	static const char	*msgs[] = {NULL, \
+									ERROR_MSG_SIGACTION, \
+									ERROR_MSG_KILL, \
+									ERROR_MSG_WRITE};
+
+	ft_printf("Error: %s\n", msgs[error_code]);
+	exit(EXIT_FAILURE);
 }
