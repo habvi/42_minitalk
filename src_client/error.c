@@ -1,5 +1,10 @@
+#include <stdlib.h>
+#include <unistd.h>
 #include "ft_printf.h"
 #include "error.h"
+#include "client.h"
+
+#include <stdio.h>
 
 void	error_exit(const t_error_code error_code)
 {
