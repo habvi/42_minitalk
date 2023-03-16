@@ -9,21 +9,6 @@
 
 t_pid	g_pid = {.server_pid = 0, .is_correct_server_pid = 0};
 
-static bool	is_valid_args(const int argc, t_error_code *error_code)
-{
-	if (argc != 3)
-	{
-		if (ft_printf("%s\n", MSG_USAGE) == ERROR)
-		{
-			*error_code = ERROR_WRITE_M;
-			return (false);
-		}
-		*error_code = INVALID_ARGS;
-		return (false);
-	}
-	return (true);
-}
-
 static bool	is_valid_pid(const char *arg, pid_t *pid, t_error_code *error_code)
 {
 	if (!ft_atoi_with_bool(arg, pid))

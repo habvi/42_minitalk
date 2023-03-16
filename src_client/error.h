@@ -5,6 +5,8 @@
 # define MSG_SEND_PID			"send message to pid:"
 # define MSG_RECIEVED			"recieved message from server!"
 
+# define ERROR					-1
+
 # define ERROR_MSG_ARGS			"invalid args"
 # define ERROR_MSG_PID			"invalid pid"
 # define ERROR_MSG_SIGACTION	"sigaction"

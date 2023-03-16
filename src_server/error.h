@@ -1,6 +1,8 @@
 #ifndef ERROR_H
 # define ERROR_H
 
+# define ERROR					-1
+
 # define ERROR_MSG_SIGACTION	"sigaction"
 # define ERROR_MSG_KILL			"kill"
 # define ERROR_MSG_WRITE		"write"

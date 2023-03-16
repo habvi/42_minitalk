@@ -1,7 +1,9 @@
 #ifndef SERVER_H
 # define SERVER_H
 
-# define ERROR	-1
+# include <signal.h> // to do
+
+typedef enum e_error_code	t_error_code;
 
 typedef struct s_signal
 {
@@ -9,8 +11,7 @@ typedef struct s_signal
 	volatile sig_atomic_t	client_pid;
 }	t_signal;
 
-typedef enum e_error_code	t_error_code;
-
+// error.c
 void	error_exit(const t_error_code error_code);
 
 // put_stderr.c
