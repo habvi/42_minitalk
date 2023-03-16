@@ -66,7 +66,7 @@ static bool	send_message(const pid_t server_pid, const char *message)
 {
 	size_t	i;
 
-	if (ft_printf("send message to pid: %d\n", server_pid) == ERROR)
+	if (ft_printf("%s %d\n", MSG_SEND_PID, server_pid) == ERROR)
 		return (false);
 	i = 0;
 	while (message[i])
@@ -120,7 +120,7 @@ int	main(int argc, char *argv[])
 		pause();
 		if (g_is_correct_server_pid == 1)
 		{
-			if (ft_printf("recieved message from server!\n") == ERROR)
+			if (ft_printf("%s\n", MSG_RECIEVED) == ERROR)
 				return (error_exit(ERROR_MSG_WRITE));
 			break ;
 		}

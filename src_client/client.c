@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "libft.h"
 #include "ft_printf.h"
+#include "client.h"
 #include "minitalk.h"
 
 static bool	is_valid_args(const int argc)
