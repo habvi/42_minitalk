@@ -1,38 +1,47 @@
 CLIENT				:=	client
 SERVER				:=	server
 
+#------------------------------------------------------
 # mandatory
-CLIENT_SRC			:=	client.c error.c
-SERVER_SRC			:=	server.c error.c
+CLIENT_DIR			:=	src_client
+SERVER_DIR			:=	src_server
 
-OBJ_DIR				:=	obj
-CLIENT_OBJ			:=	$(CLIENT_SRC:%.c=$(OBJ_DIR)/%.o)
-SERVER_OBJ			:=	$(SERVER_SRC:%.c=$(OBJ_DIR)/%.o)
+CLIENT_SRC			:=	client.c
+SERVER_SRC			:=	server.c
 
+#------------------------------------------------------
 # bonus
 COMMON_SRC			:=	error.c \
-						put_stderr.c
-CLIENT_SRC_BONUS	:=	client_bonus.c $(COMMON_SRC)
-SERVER_SRC_BONUS	:=	server_bonus.c $(COMMON_SRC)
-
-SRCS				:=	$(CLIENT_SRC) $(SERVER_SRC) $(CLIENT_SRC_BONUS) $(SERVER_SRC_BONUS)
-
+						put_stderr.c\
 # ok..?
 ifeq ($(MAKECMDGOALS), bonus)
-	CLIENT_OBJ = $(CLIENT_SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
-	SERVER_OBJ = $(SERVER_SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
+	CLIENT_SRC		:= client_bonus.c $(COMMON_SRC)
+	SERVER_SRC		:= server_bonus.c $(COMMON_SRC)
 endif
 
+#------------------------------------------------------
+# obj
+CLIENT_OBJ_DIR		:=	obj_client
+SERVER_OBJ_DIR		:=	obj_server
+
+CLIENT_OBJ			:=	$(CLIENT_SRC:%.c=$(CLIENT_OBJ_DIR)/%.o)
+SERVER_OBJ			:=	$(SERVER_SRC:%.c=$(SERVER_OBJ_DIR)/%.o)
+
+#------------------------------------------------------
 # libft
 LIBFT_DIR			:=	libft
 LIBFT				:=	$(LIBFT_DIR)/libft.a
+OBJ_DIR				:=	obj
 
+#------------------------------------------------------
 # include
 INCLUDE_DIR			:=	include
-INCLUDES			:=	-I. -I$(LIBFT_DIR)/$(INCLUDE_DIR)/
+INCLUDES			:=	-I. -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/$(INCLUDE_DIR)/
 DEPS				:=	$(OBJS:.o=.d)
 
-CC					:=	cc
+#------------------------------------------------------
+# to do -> cc
+CC					:=	clang
 CFLAGS				:=	-Wall -Wextra -Werror -MMD -MP
 MKDIR				:=	mkdir -p
 
@@ -45,34 +54,44 @@ bonus: all
 $(LIBFT): FORCE
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(OBJ_DIR)/%.o: %.c
+#------------------------------------------------------
+$(CLIENT_OBJ_DIR)/%.o: $(CLIENT_DIR)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
 
+$(SERVER_OBJ_DIR)/%.o: $(SERVER_DIR)/%.c
+	@$(MKDIR) $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
+
+#------------------------------------------------------
 $(CLIENT): $(CLIENT_OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $@ $(CLIENT_OBJ) $(LIBFT)
 
 $(SERVER): $(SERVER_OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $@ $(SERVER_OBJ) $(LIBFT)
 
+#------------------------------------------------------
 clean:
-	$(RM) -r $(OBJ_DIR) $(LIBFT_DIR)/$(OBJ_DIR)
+	$(RM) -r $(CLIENT_OBJ_DIR) $(SERVER_OBJ_DIR) $(LIBFT_DIR)/$(OBJ_DIR)
 
 fclean: clean
 	$(RM) $(CLIENT) $(SERVER) $(LIBFT)
 
 re: fclean all
 
+#------------------------------------------------------
 norm:
-	norminette $(SRCS)
+	norminette
 
-norm_with_libft:
-	norminette $(SRCS) $(LIBFT_DIR)
+norm_ex_libft:
+	norminette $(CLIENT_DIR) $(SERVER_DIR) $(INCLUDE_DIR)
 
 FORCE:
 
 $(info >>> default goal : $(.DEFAULT_GOAL))
+$(info >>> client src : $(CLIENT_SRC))
+$(info >>> server src : $(SERVER_SRC))
 $(info >>> client obj : $(CLIENT_OBJ))
 $(info >>> server obj : $(SERVER_OBJ))
 
-.PHONY: all clean fclean re bonus info FORCE norm norm_with_libft
+.PHONY: all clean fclean re bonus info FORCE norm norm_ex_libft

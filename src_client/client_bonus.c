@@ -84,7 +84,6 @@ static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)signum;
 	(void)context;
-
 	if (g_server_pid == info->si_pid)
 		g_is_correct_server_pid = 1;
 }

@@ -1,6 +1,6 @@
-client
-server
 obj/
+obj_*/
 test/
 .vscode
-out
+client
+server
