@@ -4,6 +4,8 @@
 # include <signal.h> // to do
 # include <stdbool.h>
 
+# define SLEEP_TIME	5000
+
 typedef enum e_error_code	t_error_code;
 
 typedef struct s_signal

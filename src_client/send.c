@@ -39,7 +39,7 @@ static bool	send_char(const unsigned char byte, t_error_code *error_code)
 		}
 		wait_correct_signal();
 		bit_shift++;
-		usleep(10000); // to do
+		usleep(SLEEP_TIME * 2);
 	}
 	return (true);
 }

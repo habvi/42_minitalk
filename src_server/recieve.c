@@ -27,7 +27,7 @@ static bool	send_end_signal_to_client(t_error_code *error_code)
 {
 	if (!put_client_pid(error_code))
 		return (false);
-	usleep(20000); // to do
+	usleep(SLEEP_TIME * 4);
 	if (kill(get_g_signal().client_pid, SIGUSR1) == ERROR)
 	{
 		*error_code = ERROR_KILL;
@@ -61,7 +61,7 @@ bool	recieve_message(t_error_code *error_code)
 	static unsigned char	byte = 0;
 
 	set_byte(&byte, &bit_shift);
-	usleep(5000); // to do
+	usleep(SLEEP_TIME);
 	if (!send_back_per_bit(error_code))
 		return (false);
 	if (!send_back_per_byte(&byte, &bit_shift, error_code))
