@@ -43,7 +43,8 @@ static bool	send_char(const unsigned char byte, t_error_code *error_code)
 	return (true);
 }
 
-static bool	send_message_to_server(const char *message, t_error_code *error_code)
+static bool	send_message_to_server(\
+					const char *message, t_error_code *error_code)
 {
 	size_t	i;
 

@@ -14,17 +14,20 @@ bool	is_valid_args(const int argc, t_error_code *error_code)
 	return (true);
 }
 
-bool	is_valid_pid(const char *arg, pid_t *pid, t_error_code *error_code)
+bool	is_valid_pid(const char *arg, t_error_code *error_code)
 {
-	if (!ft_atoi_with_bool(arg, pid))
+	int	server_pid;
+
+	if (!ft_atoi_with_bool(arg, &server_pid))
 	{
 		*error_code = INVALID_PID;
 		return (false);
 	}
-	if (*pid <= 0)
+	if (server_pid <= 0)
 	{
 		*error_code = INVALID_PID;
 		return (false);
 	}
+	set_g_server_pid(server_pid);
 	return (true);
 }
