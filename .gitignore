@@ -4,3 +4,4 @@ test/
 .vscode
 client
 server
+out

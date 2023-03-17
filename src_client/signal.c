@@ -3,14 +3,12 @@
 #include "error.h"
 #include "client.h"
 
-extern t_pid	g_pid;
-
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)signum;
 	(void)context;
-	if (g_pid.server_pid == info->si_pid)
-		g_pid.is_correct_server_pid = 1;
+	if (get_g_pid().server_pid == info->si_pid)
+		set_g_is_correct_server_pid(1);
 }
 
 bool	set_sigaction(struct sigaction *sa, t_error_code *error_code)

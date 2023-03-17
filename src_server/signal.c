@@ -4,15 +4,13 @@
 #include "error.h"
 #include "server.h"
 
-extern t_signal	g_signal;
-
 static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)context;
-	if (g_signal.signum == 0)
-		g_signal.client_pid = info->si_pid;
-	if (g_signal.client_pid == info->si_pid)
-		g_signal.signum = signum;
+	if (get_g_signal().signum == 0)
+		set_g_client_pid(info->si_pid);
+	if (get_g_signal().client_pid == info->si_pid)
+		set_g_signum(signum);
 }
 
 bool	set_sigaction(struct sigaction *sa, t_error_code *error_code)

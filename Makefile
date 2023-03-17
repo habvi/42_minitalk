@@ -41,7 +41,9 @@ CLIENT_SRC_BONUS	:=	client_bonus.c $(COMMON_SRC) \
 						recieve.c \
 						send.c \
 						signal.c
-SERVER_SRC_BONUS	:=	server_bonus.c $(COMMON_SRC)
+SERVER_SRC_BONUS	:=	server_bonus.c $(COMMON_SRC) \
+						recieve.c \
+						signal.c
 
 CLIENT_OBJS_BONUS	:=	$(CLIENT_SRC_BONUS:%.c=$(CLIENT_OBJ_DIR)/%.o)
 SERVER_OBJS_BONUS	:=	$(SERVER_SRC_BONUS:%.c=$(SERVER_OBJ_DIR)/%.o)

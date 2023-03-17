@@ -12,6 +12,10 @@ typedef struct s_pid
 	volatile sig_atomic_t	is_correct_server_pid;
 }	t_pid;
 
+// client.c
+t_pid	get_g_pid(void);
+void	set_g_is_correct_server_pid(sig_atomic_t is_correct_server_pid);
+
 // error.c
 void	error_exit(const t_error_code error_code);
 

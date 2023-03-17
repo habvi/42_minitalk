@@ -6,6 +6,21 @@
 
 t_signal	g_signal = {.signum = 0, .client_pid = 0};
 
+t_signal	get_g_signal(void)
+{
+	return (g_signal);
+}
+
+void	set_g_signum(sig_atomic_t signum)
+{
+	g_signal.signum = signum;
+}
+
+void	set_g_client_pid(sig_atomic_t client_pid)
+{
+	g_signal.client_pid = client_pid;
+}
+
 static bool	wait_message_from_client(t_error_code *error_code)
 {
 	while (true)

@@ -5,20 +5,18 @@
 #include "ft_dprintf.h"
 #include "server.h"
 
-extern t_signal	g_signal;
-
 static void	set_byte(unsigned char *byte, size_t *bit_shift)
 {
-	if (g_signal.signum == SIGUSR1)
+	if (get_g_signal().signum == SIGUSR1)
 		;
-	else if (g_signal.signum == SIGUSR2)
+	else if (get_g_signal().signum == SIGUSR2)
 		*byte |= (1U << *bit_shift);
 	(*bit_shift)++;
 }
 
 static bool	send_back_per_bit(t_error_code *error_code)
 {
-	if (kill(g_signal.client_pid, SIGUSR1) == ERROR)
+	if (kill(get_g_signal().client_pid, SIGUSR1) == ERROR)
 	{
 		*error_code = ERROR_KILL;
 		return (false);
@@ -28,9 +26,9 @@ static bool	send_back_per_bit(t_error_code *error_code)
 
 static bool	send_end_signal_to_client(t_error_code *error_code)
 {
-	put_str_int_to_stderr("\n> client pid: ", g_signal.client_pid);
+	put_str_int_to_stderr("\n> client pid: ", get_g_signal().client_pid);
 	usleep(20000); // to do
-	if (kill(g_signal.client_pid, SIGUSR1) == ERROR)
+	if (kill(get_g_signal().client_pid, SIGUSR1) == ERROR)
 	{
 		*error_code = ERROR_KILL;
 		return (false);
@@ -50,7 +48,7 @@ static bool	send_back_per_byte(\
 		}
 		else if (!put_byte(*byte, error_code))
 			return (false);
-		g_signal.signum = 0;
+		set_g_signum(0);
 		*bit_shift = 0;
 		*byte = 0;
 	}

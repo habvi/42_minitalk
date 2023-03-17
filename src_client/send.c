@@ -4,16 +4,14 @@
 #include "client.h"
 #include "error.h"
 
-extern t_pid	g_pid;
-
 static void	wait_correct_signal(void)
 {
 	while (true)
 	{
 		pause();
-		if (g_pid.is_correct_server_pid == 1)
+		if (get_g_pid().is_correct_server_pid == 1)
 		{
-			g_pid.is_correct_server_pid = 0;
+			set_g_is_correct_server_pid(0);
 			return ;
 		}
 	}
