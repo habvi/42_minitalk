@@ -3,6 +3,7 @@
 
 // to do: not error
 # define MSG_SERVER_PID			"> server pid:"
+# define MSG_CLIENT_PID			"> client pid:"
 
 # define ERROR					-1
 

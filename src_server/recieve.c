@@ -26,7 +26,7 @@ static bool	send_back_per_bit(t_error_code *error_code)
 
 static bool	send_end_signal_to_client(t_error_code *error_code)
 {
-	put_str_int_to_stderr("\n> client pid: ", get_g_signal().client_pid);
+	ft_dprintf("\n%s %d\n", MSG_CLIENT_PID, get_g_signal().client_pid);
 	usleep(20000); // to do
 	if (kill(get_g_signal().client_pid, SIGUSR1) == ERROR)
 	{
