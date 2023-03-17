@@ -1,4 +1,4 @@
-#include "ft_dprintf.h"
+#include "ft_dprintf_inter.h"
 
 bool	is_zero_num(t_info_pf *info)
 {

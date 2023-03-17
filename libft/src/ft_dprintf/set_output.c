@@ -1,4 +1,4 @@
-#include "ft_dprintf.h"
+#include "ft_dprintf_inter.h"
 
 static void	fill_n_with_c(t_info_pf *info, size_t size, char c)
 {

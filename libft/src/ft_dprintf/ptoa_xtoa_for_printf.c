@@ -1,4 +1,4 @@
-#include "ft_dprintf.h"
+#include "ft_dprintf_inter.h"
 #include "libft.h"
 
 static size_t	count_length(size_t num, size_t now)

@@ -1,4 +1,4 @@
-#include "ft_dprintf.h"
+#include "ft_dprintf_inter.h"
 
 static size_t	strlen_for_printf(const char *s, t_info_pf *info)
 {

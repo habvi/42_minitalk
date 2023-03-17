@@ -1,4 +1,4 @@
-#include "ft_dprintf.h"
+#include "ft_dprintf_inter.h"
 #include "libft.h"
 
 static void	set_for_mandatory(t_info_pf *info)

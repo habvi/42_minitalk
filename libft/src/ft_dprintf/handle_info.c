@@ -1,4 +1,4 @@
-#include "ft_dprintf.h"
+#include "ft_dprintf_inter.h"
 
 void	init_info(t_info_pf *info, const char *format)
 {
