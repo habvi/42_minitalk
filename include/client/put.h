@@ -3,9 +3,9 @@
 
 # include <stdbool.h>
 
-# define MSG_USAGE				"> Usage: ./client <PID> <message>"
-# define MSG_SEND_PID			"> send to server pid:"
-# define MSG_RECIEVED			"> recieved all messages from server!"
+# define MSG_USAGE      "> Usage: ./client <PID> <message>"
+# define MSG_SEND_PID   "> send to server pid:"
+# define MSG_RECIEVED   "> recieved all messages from server!"
 
 typedef enum e_error_code	t_error_code;
 

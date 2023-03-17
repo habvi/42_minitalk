@@ -14,16 +14,24 @@ COMMON_SRC			:=	args.c \
 						signal.c
 
 #--------------------------------------------
+# dir
+#--------------------------------------------
+SRC_DIR				:=	src
+OBJ_DIR				:=	obj
+CLIENT_DIR			:=	client
+SERVER_DIR			:=	server
+
+#--------------------------------------------
 # obj dir
 #--------------------------------------------
-CLIENT_OBJ_DIR		:=	obj_client
-SERVER_OBJ_DIR		:=	obj_server
+CLIENT_OBJ_DIR		:=	$(OBJ_DIR)/$(CLIENT_DIR)
+SERVER_OBJ_DIR		:=	$(OBJ_DIR)/$(SERVER_DIR)
 
 #--------------------------------------------
 # mandatory
 #--------------------------------------------
-CLIENT_DIR			:=	src_client
-SERVER_DIR			:=	src_server
+CLIENT_SRC_DIR		:=	$(SRC_DIR)/$(CLIENT_DIR)
+SERVER_SRC_DIR		:=	$(SRC_DIR)/$(SERVER_DIR)
 
 CLIENT_SRC			:=	$(COMMON_SRC) \
 						client.c  \
@@ -56,13 +64,12 @@ endif
 #--------------------------------------------
 LIBFT_DIR			:=	libft
 LIBFT				:=	$(LIBFT_DIR)/libft.a
-OBJ_DIR				:=	obj
 
 #--------------------------------------------
 # include
 #--------------------------------------------
 INCLUDE_DIR			:=	include
-INCLUDES			:=	-I. -I$(LIBFT_DIR)/$(INCLUDE_DIR)/
+INCLUDES			:=	-I$(LIBFT_DIR)/$(INCLUDE_DIR)/
 DEPS				:=	$(CLIENT_OBJS:.o=.d) $(SERVER_OBJS:.o=.d)
 
 #--------------------------------------------
@@ -82,13 +89,13 @@ $(LIBFT): FORCE
 	$(MAKE) -C $(LIBFT_DIR)
 
 #--------------------------------------------
-$(CLIENT_OBJ_DIR)/%.o: $(CLIENT_DIR)/%.c
+$(CLIENT_OBJ_DIR)/%.o: $(CLIENT_SRC_DIR)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ $(SLEEP_TIME)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR)/$(CLIENT_DIR)/ $(INCLUDES) -c $< -o $@ $(SLEEP_TIME)
 
-$(SERVER_OBJ_DIR)/%.o: $(SERVER_DIR)/%.c
+$(SERVER_OBJ_DIR)/%.o: $(SERVER_SRC_DIR)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ $(SLEEP_TIME)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR)/$(SERVER_DIR)/ $(INCLUDES) -c $< -o $@ $(SLEEP_TIME)
 
 #--------------------------------------------
 $(CLIENT): $(CLIENT_OBJS) $(LIBFT)
@@ -99,7 +106,7 @@ $(SERVER): $(SERVER_OBJS) $(LIBFT)
 
 #--------------------------------------------
 clean:
-	$(RM) -r $(CLIENT_OBJ_DIR) $(SERVER_OBJ_DIR) $(LIBFT_DIR)/$(OBJ_DIR)
+	$(RM) -r $(OBJ_DIR) $(LIBFT_DIR)/$(OBJ_DIR)
 
 fclean: clean
 	$(RM) $(CLIENT) $(SERVER) $(LIBFT)

@@ -1,4 +1,3 @@
-// #include <signal.h> // kill
 #include <unistd.h> // usleep, pause
 #include <limits.h> // CHAR_BIT
 #include "put.h"

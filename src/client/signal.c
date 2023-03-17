@@ -1,4 +1,3 @@
-// #include <signal.h> // sigaction
 #include "libft.h"
 #include "error.h"
 #include "client.h"

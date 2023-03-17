@@ -1,7 +1,4 @@
 obj/
-obj_*/
 test/
 .vscode
-client
-server
 out

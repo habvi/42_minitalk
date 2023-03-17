@@ -1,7 +1,7 @@
 #ifndef CLIENT_H
 # define CLIENT_H
 
-# include <signal.h> // to do
+# include <signal.h>
 # include <stdbool.h>
 
 # ifndef SLEEP_TIME
@@ -15,10 +15,6 @@ typedef struct s_pid
 	volatile sig_atomic_t	server_pid;
 	volatile sig_atomic_t	is_correct_server_pid;
 }	t_pid;
-
-// args.c
-bool	is_valid_args(const int argc, t_error_code *error_code);
-bool	is_valid_pid(const char *arg, t_error_code *error_code);
 
 // client.c, client_bonus.c
 t_pid	get_g_pid(void);

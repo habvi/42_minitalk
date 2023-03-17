@@ -1,6 +1,6 @@
 #include <unistd.h> // write, getpid
-#include "put.h"
 #include "ft_dprintf.h"
+#include "put.h"
 #include "error.h"
 #include "server.h"
 
@@ -26,7 +26,9 @@ bool	put_server_pid(t_error_code *error_code)
 
 bool	put_client_pid(t_error_code *error_code)
 {
-	if (ft_dprintf("\n%s %d\n", MSG_CLIENT_PID, get_g_signal().client_pid) == ERROR)
+	const sig_atomic_t	client_pid = get_g_signal().client_pid;
+
+	if (ft_dprintf("\n%s %d\n", MSG_CLIENT_PID, client_pid) == ERROR)
 	{
 		*error_code = ERROR_WRITE;
 		return (false);
