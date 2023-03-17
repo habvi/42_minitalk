@@ -16,7 +16,7 @@ typedef enum e_error_code {
 	INVALID_PID = 2,
 	ERROR_SIGACTION = 3,
 	ERROR_KILL = 4,
-	ERROR_WRITE_M = 5,
+	ERROR_WRITE = 5,
 }	t_error_code;
 
 void	error_exit(const t_error_code error_code);
