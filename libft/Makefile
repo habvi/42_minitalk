@@ -40,17 +40,6 @@ SRCS_LIBFT	:=	libft/ft_atoi_with_bool.c \
 				libft/ft_tolower.c \
 				libft/ft_toupper.c
 
-SRC_FT_PRINTF	:=	ft_printf/convert_to_str.c \
-					ft_printf/convert_to_str2.c \
-					ft_printf/ft_printf.c \
-					ft_printf/handle_info.c \
-					ft_printf/itoa_utoa_for_printf.c\
-					ft_printf/parse_format.c \
-					ft_printf/ptoa_xtoa_for_printf.c \
-					ft_printf/set_field.c \
-					ft_printf/set_output.c \
-					ft_printf/strdup_for_printf.c
-
 SRC_FT_DPRINTF	:=	ft_dprintf/convert_to_str.c \
 					ft_dprintf/convert_to_str2.c \
 					ft_dprintf/ft_dprintf.c \
@@ -66,7 +55,7 @@ NAME		:=	libft.a
 
 SRC_DIR		:=	src
 OBJ_DIR		:=	obj
-SRCS		:=	$(SRC_FT_PRINTF) $(SRC_FT_DPRINTF) $(SRCS_LIBFT)
+SRCS		:=	$(SRC_FT_DPRINTF) $(SRCS_LIBFT)
 OBJS		:=	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 INCLUDE_DIR	:=	include
