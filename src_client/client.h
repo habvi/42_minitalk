@@ -16,7 +16,7 @@ typedef struct s_pid
 bool	is_valid_args(const int argc, t_error_code *error_code);
 bool	is_valid_pid(const char *arg, t_error_code *error_code);
 
-// client.c
+// client.c, client_bonus.c
 t_pid	get_g_pid(void);
 void	set_g_server_pid(sig_atomic_t server_pid);
 void	set_g_is_correct_server_pid(sig_atomic_t is_correct_server_pid);

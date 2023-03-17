@@ -25,13 +25,11 @@ SERVER_OBJ_DIR		:=	obj_server
 CLIENT_DIR			:=	src_client
 SERVER_DIR			:=	src_server
 
-CLIENT_SRC			:=	client.c $(COMMON_SRC)
-SERVER_SRC			:=	server.c $(COMMON_SRC)
-
-# ifeq ($(MAKECMDGOALS), bonus)
-# 	CLIENT_SRC		:= client_bonus.c $(COMMON_SRC)
-# 	SERVER_SRC		:= server_bonus.c $(COMMON_SRC)
-# endif
+CLIENT_SRC			:=	$(COMMON_SRC) \
+						client.c  \
+						send.c
+SERVER_SRC			:=	$(COMMON_SRC) \
+						server.c
 
 CLIENT_OBJS			:=	$(CLIENT_SRC:%.c=$(CLIENT_OBJ_DIR)/%.o)
 SERVER_OBJS			:=	$(SERVER_SRC:%.c=$(SERVER_OBJ_DIR)/%.o)
@@ -40,7 +38,7 @@ SERVER_OBJS			:=	$(SERVER_SRC:%.c=$(SERVER_OBJ_DIR)/%.o)
 # bonus
 #--------------------------------------------
 CLIENT_SRC_BONUS	:=	$(COMMON_SRC) \
-						client_bonus.c  \
+						client_bonus.c \
 						send.c
 SERVER_SRC_BONUS	:=	$(COMMON_SRC) \
 						server_bonus.c
@@ -73,6 +71,7 @@ CC					:=	cc
 CFLAGS				:=	-Wall -Wextra -Werror -MMD -MP
 MKDIR				:=	mkdir -p
 
+#--------------------------------------------
 all: $(CLIENT) $(SERVER)
 
 bonus: all
@@ -116,8 +115,9 @@ norm_ex_libft:
 
 FORCE:
 
-$(info >>> default goal : $(.DEFAULT_GOAL))
-$(info >>> client obj : $(CLIENT_OBJS))
-$(info >>> server obj : $(SERVER_OBJS))
+info:
+	$(info >>> default goal : $(.DEFAULT_GOAL))
+	$(info >>> client obj : $(CLIENT_OBJS))
+	$(info >>> server obj : $(SERVER_OBJS))
 
 .PHONY: all clean fclean re bonus info FORCE norm norm_ex_libft
