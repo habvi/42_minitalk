@@ -40,16 +40,6 @@ SRCS_LIBFT	:=	libft/ft_atoi_with_bool.c \
 				libft/ft_tolower.c \
 				libft/ft_toupper.c
 
-SRCS_LIST	:=	libft/ft_lstadd_back.c \
-				libft/ft_lstadd_front.c \
-				libft/ft_lstclear.c \
-				libft/ft_lstdelone.c \
-				libft/ft_lstiter.c \
-				libft/ft_lstlast.c \
-				libft/ft_lstmap.c \
-				libft/ft_lstnew.c \
-				libft/ft_lstsize.c
-
 SRC_FT_PRINTF	:=	ft_printf/convert_to_str.c \
 					ft_printf/convert_to_str2.c \
 					ft_printf/ft_printf.c \
@@ -76,7 +66,7 @@ NAME		:=	libft.a
 
 SRC_DIR		:=	src
 OBJ_DIR		:=	obj
-SRCS		:=	$(SRC_FT_PRINTF) $(SRC_FT_DPRINTF) $(SRCS_LIBFT) $(SRCS_LIST)
+SRCS		:=	$(SRC_FT_PRINTF) $(SRC_FT_DPRINTF) $(SRCS_LIBFT)
 OBJS		:=	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 INCLUDE_DIR	:=	include
