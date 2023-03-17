@@ -84,11 +84,11 @@ $(LIBFT): FORCE
 #--------------------------------------------
 $(CLIENT_OBJ_DIR)/%.o: $(CLIENT_DIR)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ $(SLEEP_TIME)
 
 $(SERVER_OBJ_DIR)/%.o: $(SERVER_DIR)/%.c
 	@$(MKDIR) $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ $(SLEEP_TIME)
 
 #--------------------------------------------
 $(CLIENT): $(CLIENT_OBJS) $(LIBFT)
@@ -113,6 +113,10 @@ norm:
 norm_ex_libft:
 	norminette $(CLIENT_DIR) $(SERVER_DIR) $(INCLUDE_DIR)
 
+slow:
+	$(RM) -r $(CLIENT_OBJ_DIR) $(SERVER_OBJ_DIR)
+	make SLEEP_TIME="-D SLEEP_TIME=5000"
+
 FORCE:
 
 info:
@@ -120,4 +124,4 @@ info:
 	$(info >>> client obj : $(CLIENT_OBJS))
 	$(info >>> server obj : $(SERVER_OBJS))
 
-.PHONY: all clean fclean re bonus info FORCE norm norm_ex_libft
+.PHONY: all clean fclean re bonus info FORCE norm norm_ex_libft slow

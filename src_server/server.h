@@ -4,7 +4,9 @@
 # include <signal.h> // to do
 # include <stdbool.h>
 
-# define SLEEP_TIME	5000
+# ifndef SLEEP_TIME
+#  define SLEEP_TIME	150
+# endif
 
 typedef enum e_error_code	t_error_code;
 
