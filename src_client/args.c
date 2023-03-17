@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "put.h"
 #include "error.h"
 #include "client.h"
 

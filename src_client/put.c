@@ -32,3 +32,8 @@ bool	put_recieved_message(t_error_code *error_code)
 	}
 	return (true);
 }
+
+void	put_error(const char *message)
+{
+	ft_dprintf("Error: %s\n", message);
+}

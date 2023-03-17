@@ -1,8 +1,9 @@
 // #include <signal.h> // kill
 #include <unistd.h> // usleep, pause
 #include <limits.h> // CHAR_BIT
-#include "client.h"
+#include "put.h"
 #include "error.h"
+#include "client.h"
 
 static void	wait_correct_signal(void)
 {

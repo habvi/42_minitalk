@@ -1,6 +1,7 @@
 #include <unistd.h> // pause
-#include "client.h"
+#include "put.h"
 #include "error.h"
+#include "client.h"
 
 bool	recieve_end_signal(t_error_code *error_code)
 {

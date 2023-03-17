@@ -1,6 +1,6 @@
 #include <stdlib.h> // EXIT_SUCCESS
-#include "client.h"
 #include "error.h"
+#include "client.h"
 
 t_pid	g_pid = {.server_pid = 0, .is_correct_server_pid = 0};
 

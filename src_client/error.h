@@ -9,6 +9,8 @@
 # define ERROR_MSG_KILL			"kill()"
 # define ERROR_MSG_WRITE		"write()"
 
+typedef enum e_error_code	t_error_code;
+
 typedef enum e_error_code {
 	INVALID_ARGS = 1,
 	INVALID_PID = 2,
@@ -16,5 +18,7 @@ typedef enum e_error_code {
 	ERROR_KILL = 4,
 	ERROR_WRITE_M = 5,
 }	t_error_code;
+
+void	error_exit(const t_error_code error_code);
 
 #endif
