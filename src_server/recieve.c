@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <limits.h> // CHAR_BIT
 #include "error.h"
-#include "ft_dprintf.h"
 #include "server.h"
 
 static void	set_byte(unsigned char *byte, size_t *bit_shift)
@@ -26,7 +25,8 @@ static bool	send_back_per_bit(t_error_code *error_code)
 
 static bool	send_end_signal_to_client(t_error_code *error_code)
 {
-	ft_dprintf("\n%s %d\n", MSG_CLIENT_PID, get_g_signal().client_pid);
+	if (!put_client_pid(error_code))
+		return (false);
 	usleep(20000); // to do
 	if (kill(get_g_signal().client_pid, SIGUSR1) == ERROR)
 	{
