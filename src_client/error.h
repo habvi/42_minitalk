@@ -1,9 +1,10 @@
 #ifndef ERROR_H
 # define ERROR_H
 
-# define MSG_USAGE				"usage: ./client <PID> <message>"
-# define MSG_SEND_PID			"send message to pid:"
-# define MSG_RECIEVED			"recieved message from server!"
+// to do: not error
+# define MSG_USAGE				"> usage: ./client <PID> <message>"
+# define MSG_SEND_PID			"> send message to pid:"
+# define MSG_RECIEVED			"> recieved message from server!"
 
 # define ERROR					-1
 

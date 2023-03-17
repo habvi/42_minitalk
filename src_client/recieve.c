@@ -2,7 +2,7 @@
 #include "client.h"
 #include "error.h"
 
-t_pid	g_pid;
+extern t_pid	g_pid;
 
 bool	recieve_end_signal(t_error_code *error_code)
 {

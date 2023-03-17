@@ -1,10 +1,10 @@
-#include <signal.h> // kill
+// #include <signal.h> // kill
 #include <unistd.h> // usleep, pause
 #include <limits.h> // CHAR_BIT
 #include "client.h"
 #include "error.h"
 
-t_pid	g_pid;
+extern t_pid	g_pid;
 
 static void	wait_correct_signal(void)
 {

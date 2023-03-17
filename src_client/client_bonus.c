@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stdlib.h> // EXIT_SUCCESS
 #include "client.h"
 #include "error.h"
 

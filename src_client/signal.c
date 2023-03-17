@@ -1,9 +1,9 @@
-#include <signal.h> // sigaction
+// #include <signal.h> // sigaction
 #include "libft.h"
 #include "error.h"
 #include "client.h"
 
-t_pid	g_pid;
+extern t_pid	g_pid;
 
 void	signal_handler(int signum, siginfo_t *info, void *context)
 {
