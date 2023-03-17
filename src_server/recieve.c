@@ -1,5 +1,6 @@
 #include <unistd.h> // usleep
 #include <limits.h> // CHAR_BIT
+#include "put.h"
 #include "error.h"
 #include "server.h"
 

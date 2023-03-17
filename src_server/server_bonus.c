@@ -1,5 +1,6 @@
 #include <unistd.h> // pause
 #include <stdlib.h> // EXIT_SUCCESS
+#include "put.h"
 #include "error.h"
 #include "server.h"
 
@@ -31,12 +32,15 @@ static bool	wait_message_from_client(t_error_code *error_code)
 	return (true);
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
 	struct sigaction	sa;
 	t_error_code		error_code;
 
 	error_code = 0;
+	(void)argv;
+	if (!is_valid_args(argc, &error_code))
+		error_exit(error_code);
 	if (!put_server_pid(&error_code))
 		error_exit(error_code);
 	if (!set_sigaction(&sa, &error_code))
