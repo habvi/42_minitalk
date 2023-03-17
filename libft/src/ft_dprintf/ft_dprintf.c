@@ -1,9 +1,6 @@
 #include "ft_dprintf.h"
 #include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
 static void	parse_format(t_info_pf *info, va_list *args_list)
 {
 	info->fmt++;
@@ -43,7 +40,7 @@ static void	normal_char_mode(t_info_pf *info)
 {
 	while (*info->fmt && *info->fmt != '%')
 	{
-		if (write(STDOUT_FILENO, info->fmt, 1) == ERROR_WRITE || \
+		if (write(STDERR_FILENO, info->fmt, 1) == ERROR_WRITE || \
 			info->total_len == INT_MAX)
 		{
 			info->error = EXIT;
