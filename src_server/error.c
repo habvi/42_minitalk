@@ -1,5 +1,6 @@
-#include "ft_dprintf.h"
+#include <stdlib.h> // exit
 #include "error.h"
+#include "server.h"
 
 void	error_exit(const t_error_code error_code)
 {
@@ -8,6 +9,6 @@ void	error_exit(const t_error_code error_code)
 									ERROR_MSG_KILL, \
 									ERROR_MSG_WRITE};
 
-	ft_dprintf("Error: %s\n", msgs[error_code]);
+	put_error(msgs[error_code]);
 	exit(EXIT_FAILURE);
 }

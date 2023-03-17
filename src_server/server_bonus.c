@@ -1,6 +1,5 @@
 #include <unistd.h> // pause
 #include <stdlib.h> // EXIT_SUCCESS
-#include <stdbool.h>
 #include "error.h"
 #include "server.h"
 

@@ -1,5 +1,4 @@
 #include <unistd.h> // usleep
-#include <stdbool.h>
 #include <limits.h> // CHAR_BIT
 #include "error.h"
 #include "server.h"

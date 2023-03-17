@@ -1,5 +1,4 @@
 // #include <signal.h> // sigaction
-#include <stdbool.h>
 #include "libft.h"
 #include "error.h"
 #include "server.h"

@@ -1,18 +1,13 @@
 #ifndef ERROR_H
 # define ERROR_H
 
-// to do: not error
-# define MSG_USAGE				"> usage: ./client <PID> <message>"
-# define MSG_SEND_PID			"> send message to pid:"
-# define MSG_RECIEVED			"> recieved message from server!"
-
 # define ERROR					-1
 
 # define ERROR_MSG_ARGS			"invalid args"
 # define ERROR_MSG_PID			"invalid pid"
 # define ERROR_MSG_SIGACTION	"sigaction"
-# define ERROR_MSG_KILL			"kill"
-# define ERROR_MSG_WRITE		"write"
+# define ERROR_MSG_KILL			"kill()"
+# define ERROR_MSG_WRITE		"write()"
 
 typedef enum e_error_code {
 	INVALID_ARGS = 1,

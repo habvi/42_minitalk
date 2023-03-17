@@ -2,6 +2,7 @@
 # define SERVER_H
 
 # include <signal.h> // to do
+# include <stdbool.h>
 
 typedef enum e_error_code	t_error_code;
 
@@ -21,7 +22,9 @@ void		error_exit(const t_error_code error_code);
 
 // put.c
 bool		put_server_pid(t_error_code *error_code);
+bool		put_client_pid(t_error_code *error_code);
 bool		put_byte(const unsigned char byte, t_error_code *error_code);
+void		put_error(const char *message);
 
 // recieve.c
 bool		recieve_message(t_error_code *error_code);
