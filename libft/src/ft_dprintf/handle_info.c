@@ -50,9 +50,6 @@ void	free_dup_str(t_info_pf *info)
 	info->dup_str = NULL;
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-
 void	put_output(t_info_pf *info)
 {
 	ssize_t	res;
