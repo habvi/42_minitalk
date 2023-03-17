@@ -27,7 +27,7 @@ int	main(int argc, char *argv[])
 	g_pid.server_pid = server_pid;
 	if (!set_sigaction(&sa, &error_code))
 		error_exit(error_code);
-	if (!send_message(g_pid.server_pid, argv[2], &error_code))
+	if (!send_message(argv[2], &error_code))
 		error_exit(error_code);
 	if (!recieve_end_signal(&error_code))
 		error_exit(error_code);

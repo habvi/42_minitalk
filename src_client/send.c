@@ -17,8 +17,7 @@ static void	wait_correct_signal(void)
 	}
 }
 
-static bool	send_char(\
-			const pid_t pid, const unsigned char byte, t_error_code *error_code)
+static bool	send_char(const unsigned char byte, t_error_code *error_code)
 {
 	size_t	bit_shift;
 	size_t	bit_mask;
@@ -29,9 +28,9 @@ static bool	send_char(\
 	{
 		bit_mask = 1U << bit_shift;
 		if ((byte & bit_mask) == 0)
-			result = kill(pid, SIGUSR1);
+			result = kill(get_g_pid().server_pid, SIGUSR1);
 		else
-			result = kill(pid, SIGUSR2);
+			result = kill(get_g_pid().server_pid, SIGUSR2);
 		if (result == ERROR)
 		{
 			*error_code = ERROR_KILL;
@@ -44,29 +43,27 @@ static bool	send_char(\
 	return (true);
 }
 
-static bool	send_message_to_server(\
-		const pid_t server_pid, const char *message, t_error_code *error_code)
+static bool	send_message_to_server(const char *message, t_error_code *error_code)
 {
 	size_t	i;
 
 	i = 0;
 	while (message[i])
 	{
-		if (!send_char(server_pid, message[i], error_code))
+		if (!send_char(message[i], error_code))
 			return (false);
 		i++;
 	}
-	if (!send_char(server_pid, '\0', error_code))
+	if (!send_char('\0', error_code))
 		return (false);
 	return (true);
 }
 
-bool	send_message(\
-		const pid_t server_pid, const char *message, t_error_code *error_code)
+bool	send_message(const char *message, t_error_code *error_code)
 {
-	if (!put_server_pid(server_pid, error_code))
+	if (!put_server_pid(error_code))
 		return (false);
-	if (!send_message_to_server(server_pid, message, error_code))
+	if (!send_message_to_server(message, error_code))
 		return (false);
 	return (true);
 }

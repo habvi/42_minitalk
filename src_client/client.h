@@ -28,12 +28,11 @@ void	signal_handler(int signum, siginfo_t *info, void *context);
 bool	set_sigaction(struct sigaction *sa, t_error_code *error_code);
 
 // send.c
-bool	send_message(\
-		const pid_t server_pid, const char *message, t_error_code *error_code);
+bool	send_message(const char *message, t_error_code *error_code);
 
 // put.c
 bool	put_usage(t_error_code *error_code);
-bool	put_server_pid(const pid_t server_pid, t_error_code *error_code);
+bool	put_server_pid(t_error_code *error_code);
 bool	put_recieved_message(t_error_code *error_code);
 
 // recieve.c

@@ -1,6 +1,7 @@
 #include "libft.h"
 #include "ft_dprintf.h"
 #include "error.h"
+#include "client.h"
 
 bool	put_usage(t_error_code *error_code)
 {
@@ -12,9 +13,9 @@ bool	put_usage(t_error_code *error_code)
 	return (true);
 }
 
-bool	put_server_pid(const pid_t server_pid, t_error_code *error_code)
+bool	put_server_pid(t_error_code *error_code)
 {
-	if (ft_dprintf("%s %d\n", MSG_SEND_PID, server_pid) == ERROR)
+	if (ft_dprintf("%s %d\n", MSG_SEND_PID, get_g_pid().server_pid) == ERROR)
 	{
 		*error_code = ERROR_WRITE_M;
 		return (false);
