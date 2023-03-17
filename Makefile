@@ -43,23 +43,6 @@ CLIENT_OBJS			:=	$(CLIENT_SRC:%.c=$(CLIENT_OBJ_DIR)/%.o)
 SERVER_OBJS			:=	$(SERVER_SRC:%.c=$(SERVER_OBJ_DIR)/%.o)
 
 #--------------------------------------------
-# bonus
-#--------------------------------------------
-CLIENT_SRC_BONUS	:=	$(COMMON_SRC) \
-						client_bonus.c \
-						send.c
-SERVER_SRC_BONUS	:=	$(COMMON_SRC) \
-						server_bonus.c
-
-CLIENT_OBJS_BONUS	:=	$(CLIENT_SRC_BONUS:%.c=$(CLIENT_OBJ_DIR)/%.o)
-SERVER_OBJS_BONUS	:=	$(SERVER_SRC_BONUS:%.c=$(SERVER_OBJ_DIR)/%.o)
-
-ifeq ($(MAKECMDGOALS), bonus)
-	CLIENT_OBJS		:=	$(CLIENT_OBJS_BONUS)
-	SERVER_OBJS		:=	$(SERVER_OBJS_BONUS)
-endif
-
-#--------------------------------------------
 # libft
 #--------------------------------------------
 LIBFT_DIR			:=	libft
@@ -73,7 +56,6 @@ INCLUDES			:=	-I$(LIBFT_DIR)/$(INCLUDE_DIR)/
 DEPS				:=	$(CLIENT_OBJS:.o=.d) $(SERVER_OBJS:.o=.d)
 
 #--------------------------------------------
-# to do -> cc
 CC					:=	cc
 CFLAGS				:=	-Wall -Wextra -Werror -MMD -MP
 MKDIR				:=	mkdir -p
