@@ -1,6 +1,9 @@
 #ifndef ERROR_H
 # define ERROR_H
 
+// to do: not error
+# define MSG_SERVER_PID			"> server pid:"
+
 # define ERROR					-1
 
 # define ERROR_MSG_SIGACTION	"sigaction"
