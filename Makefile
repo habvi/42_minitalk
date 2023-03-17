@@ -7,8 +7,11 @@ SERVER				:=	server
 #--------------------------------------------
 # common
 #--------------------------------------------
-COMMON_SRC			:=	error.c \
-						put.c
+COMMON_SRC			:=	args.c \
+						error.c \
+						put.c \
+						recieve.c \
+						signal.c
 
 #--------------------------------------------
 # obj dir
@@ -36,14 +39,11 @@ SERVER_OBJS			:=	$(SERVER_SRC:%.c=$(SERVER_OBJ_DIR)/%.o)
 #--------------------------------------------
 # bonus
 #--------------------------------------------
-CLIENT_SRC_BONUS	:=	client_bonus.c $(COMMON_SRC) \
-						args.c \
-						recieve.c \
-						send.c \
-						signal.c
-SERVER_SRC_BONUS	:=	server_bonus.c $(COMMON_SRC) \
-						recieve.c \
-						signal.c
+CLIENT_SRC_BONUS	:=	$(COMMON_SRC) \
+						client_bonus.c  \
+						send.c
+SERVER_SRC_BONUS	:=	$(COMMON_SRC) \
+						server_bonus.c
 
 CLIENT_OBJS_BONUS	:=	$(CLIENT_SRC_BONUS:%.c=$(CLIENT_OBJ_DIR)/%.o)
 SERVER_OBJS_BONUS	:=	$(SERVER_SRC_BONUS:%.c=$(SERVER_OBJ_DIR)/%.o)
