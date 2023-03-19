@@ -44,14 +44,11 @@ typedef struct s_info_pf
 	size_t		total_len;
 }	t_info_pf;
 
-// ft_dprintf.c
-int		ft_dprintf(const char *format, ...);
-
 // handle_info.c
 void	init_info(t_info_pf *info, const char *format);
 void	clear_fmt_info(t_info_pf *info);
 void	free_dup_str(t_info_pf *info);
-void	put_output(t_info_pf *info);
+void	put_output(int fd, t_info_pf *info);
 
 // parse_format.c
 void	set_format_flags(t_info_pf *info);

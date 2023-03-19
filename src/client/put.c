@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "ft_dprintf.h"
 #include "put.h"
 #include "error.h"
@@ -5,7 +6,7 @@
 
 bool	put_usage(t_error_code *error_code)
 {
-	if (ft_dprintf("%s\n", MSG_USAGE) == ERROR)
+	if (ft_dprintf(STDERR_FILENO, "%s\n", MSG_USAGE) == ERROR)
 	{
 		*error_code = ERROR_WRITE;
 		return (false);
@@ -15,7 +16,7 @@ bool	put_usage(t_error_code *error_code)
 
 bool	put_server_pid(t_error_code *error_code)
 {
-	if (ft_dprintf("%s %d\n", MSG_SEND_PID, get_g_pid().server_pid) == ERROR)
+	if (ft_dprintf(STDERR_FILENO, "%s %d\n", MSG_SEND_PID, get_g_pid().server_pid) == ERROR)
 	{
 		*error_code = ERROR_WRITE;
 		return (false);
@@ -25,7 +26,7 @@ bool	put_server_pid(t_error_code *error_code)
 
 bool	put_recieved_message(t_error_code *error_code)
 {
-	if (ft_dprintf("%s\n", MSG_RECIEVED) == ERROR)
+	if (ft_dprintf(STDERR_FILENO, "%s\n", MSG_RECIEVED) == ERROR)
 	{
 		*error_code = ERROR_WRITE;
 		return (false);
@@ -35,5 +36,5 @@ bool	put_recieved_message(t_error_code *error_code)
 
 void	put_error(const char *message)
 {
-	ft_dprintf("Error: %s\n", message);
+	ft_dprintf(STDERR_FILENO, "Error: %s\n", message);
 }

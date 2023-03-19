@@ -50,11 +50,11 @@ void	free_dup_str(t_info_pf *info)
 	info->dup_str = NULL;
 }
 
-void	put_output(t_info_pf *info)
+void	put_output(int fd, t_info_pf *info)
 {
 	ssize_t	res;
 
-	res = write(STDERR_FILENO, info->output, info->index);
+	res = write(fd, info->output, info->index);
 	if (res == ERROR_WRITE || info->total_len + res >= INT_MAX)
 	{
 		free(info->output);

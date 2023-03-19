@@ -27,20 +27,20 @@ static void	parse_format(t_info_pf *info, va_list *args_list)
 	set_output(info);
 }
 
-static void	format_specifier_mode(t_info_pf *info, va_list *args_list)
+static void	format_specifier_mode(int fd, t_info_pf *info, va_list *args_list)
 {
 	parse_format(info, args_list);
 	if (info->error)
 		return ;
 	info->is_format_specifier = false;
-	put_output(info);
+	put_output(fd, info);
 }
 
-static void	normal_char_mode(t_info_pf *info)
+static void	normal_char_mode(int fd, t_info_pf *info)
 {
 	while (*info->fmt && *info->fmt != '%')
 	{
-		if (write(STDERR_FILENO, info->fmt, 1) == ERROR_WRITE || \
+		if (write(fd, info->fmt, 1) == ERROR_WRITE || \
 			info->total_len == INT_MAX)
 		{
 			info->error = EXIT;
@@ -54,30 +54,31 @@ static void	normal_char_mode(t_info_pf *info)
 		info->fmt++;
 }
 
-static void	format_specifier_or_not(t_info_pf *info, va_list *args_list)
+static void	format_specifier_or_not(int fd, t_info_pf *info, va_list *args_list)
 {
 	while (*info->fmt)
 	{
 		if (info->is_format_specifier)
 		{
-			format_specifier_mode(info, args_list);
+			format_specifier_mode(fd, info, args_list);
 			clear_fmt_info(info);
 		}
 		else
-			normal_char_mode(info);
+			normal_char_mode(fd, info);
 		if (info->error)
 			return ;
 	}
 }
 
-int	ft_dprintf(const char *format, ...)
+int	ft_dprintf(int fd, const char *format, ...)
 {
 	t_info_pf	info;
 	va_list		args_list;
 
+	// to do: check fd
 	va_start(args_list, format);
 	init_info(&info, format);
-	format_specifier_or_not(&info, &args_list);
+	format_specifier_or_not(fd, &info, &args_list);
 	va_end(args_list);
 	if (info.error)
 		return (ERROR_FT_PRINTF);
