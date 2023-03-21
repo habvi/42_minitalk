@@ -5,15 +5,6 @@ CLIENT				:=	client
 SERVER				:=	server
 
 #--------------------------------------------
-# common
-#--------------------------------------------
-COMMON_SRC			:=	args.c \
-						error.c \
-						put.c \
-						receive.c \
-						signal.c
-
-#--------------------------------------------
 # dir
 #--------------------------------------------
 SRC_DIR				:=	src
@@ -33,11 +24,20 @@ SERVER_OBJ_DIR		:=	$(OBJ_DIR)/$(SERVER_DIR)
 CLIENT_SRC_DIR		:=	$(SRC_DIR)/$(CLIENT_DIR)
 SERVER_SRC_DIR		:=	$(SRC_DIR)/$(SERVER_DIR)
 
-CLIENT_SRC			:=	$(COMMON_SRC) \
+CLIENT_SRC			:=	args.c \
 						client.c  \
-						send.c
-SERVER_SRC			:=	$(COMMON_SRC) \
-						server.c
+						error.c \
+						put.c \
+						receive.c \
+						send.c \
+						signal.c
+
+SERVER_SRC			:=	args.c \
+						error.c \
+						put.c \
+						receive.c \
+						server.c \
+						signal.c
 
 CLIENT_OBJS			:=	$(CLIENT_SRC:%.c=$(CLIENT_OBJ_DIR)/%.o)
 SERVER_OBJS			:=	$(SERVER_SRC:%.c=$(SERVER_OBJ_DIR)/%.o)
