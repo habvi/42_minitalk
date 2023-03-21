@@ -33,7 +33,7 @@ int	main(int argc, char *argv[])
 		error_exit(error_code);
 	if (!send_message(argv[2], &error_code))
 		error_exit(error_code);
-	if (!recieve_end_signal(&error_code))
+	if (!receive_end_signal(&error_code))
 		error_exit(error_code);
 	return (EXIT_SUCCESS);
 }

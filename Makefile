@@ -10,7 +10,7 @@ SERVER				:=	server
 COMMON_SRC			:=	args.c \
 						error.c \
 						put.c \
-						recieve.c \
+						receive.c \
 						signal.c
 
 #--------------------------------------------

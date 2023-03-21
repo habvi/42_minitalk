@@ -24,8 +24,8 @@ t_signal	get_g_signal(void);
 void		set_g_signum(sig_atomic_t signum);
 void		set_g_client_pid(sig_atomic_t client_pid);
 
-// recieve.c
-bool		recieve_message(t_error_code *error_code);
+// receive.c
+bool		receive_message(t_error_code *error_code);
 
 // signal.c
 bool		set_sigaction(struct sigaction *sa, t_error_code *error_code);

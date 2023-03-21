@@ -21,8 +21,8 @@ t_pid	get_g_pid(void);
 void	set_g_server_pid(sig_atomic_t server_pid);
 void	set_g_is_correct_server_pid(sig_atomic_t is_correct_server_pid);
 
-// recieve.c
-bool	recieve_end_signal(t_error_code *error_code);
+// receive.c
+bool	receive_end_signal(t_error_code *error_code);
 
 // send.c
 bool	send_message(const char *message, t_error_code *error_code);

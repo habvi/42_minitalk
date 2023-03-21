@@ -24,9 +24,9 @@ bool	put_server_pid(t_error_code *error_code)
 	return (true);
 }
 
-bool	put_recieved_message(t_error_code *error_code)
+bool	put_received_message(t_error_code *error_code)
 {
-	if (ft_dprintf(STDERR_FILENO, "%s\n", MSG_RECIEVED) == ERROR)
+	if (ft_dprintf(STDERR_FILENO, "%s\n", MSG_RECEIVED) == ERROR)
 	{
 		*error_code = ERROR_WRITE;
 		return (false);

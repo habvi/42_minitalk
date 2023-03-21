@@ -26,7 +26,7 @@ static bool	wait_message_from_client(t_error_code *error_code)
 	while (true)
 	{
 		pause();
-		if (!recieve_message(error_code))
+		if (!receive_message(error_code))
 			return (false);
 	}
 	return (true);
@@ -37,8 +37,8 @@ int	main(int argc, char *argv[])
 	struct sigaction	sa;
 	t_error_code		error_code;
 
-	error_code = 0;
 	(void)argv;
+	error_code = 0;
 	if (!is_valid_args(argc, &error_code))
 		error_exit(error_code);
 	if (!put_server_pid(&error_code))

@@ -55,7 +55,7 @@ static bool	send_back_per_byte(\
 	return (true);
 }
 
-bool	recieve_message(t_error_code *error_code)
+bool	receive_message(t_error_code *error_code)
 {
 	static size_t			bit_shift = 0;
 	static unsigned char	byte = 0;
