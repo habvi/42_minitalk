@@ -12,7 +12,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-bool	ft_atoi_with_bool(const char *str, int *num);
+bool	ft_atoi_strictly(const char *str, int *num);
 bool	ft_isdigit(int c);
 size_t	ft_max(const size_t x, const size_t y);
 void	*ft_memset(void *b, int c, size_t len);

@@ -19,7 +19,7 @@ bool	is_valid_pid(const char *arg, t_error_code *error_code)
 {
 	int	server_pid;
 
-	if (!ft_atoi_with_bool(arg, &server_pid))
+	if (!ft_atoi_strictly(arg, &server_pid))
 	{
 		*error_code = INVALID_PID;
 		return (false);

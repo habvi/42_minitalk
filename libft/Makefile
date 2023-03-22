@@ -1,4 +1,4 @@
-SRCS_LIBFT	:=	libft/ft_atoi_with_bool.c \
+SRCS_LIBFT	:=	libft/ft_atoi_strictly.c \
 				libft/ft_isdigit.c \
 				libft/ft_max.c \
 				libft/ft_memset.c \
