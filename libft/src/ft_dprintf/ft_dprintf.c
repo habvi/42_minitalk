@@ -75,12 +75,13 @@ int	ft_dprintf(int fd, const char *format, ...)
 	t_info_pf	info;
 	va_list		args_list;
 
-	// to do: check fd
+	if (fd < 0 || format == NULL)
+		return (ERROR_FT_DPRINTF);
 	va_start(args_list, format);
 	init_info(&info, format);
 	format_specifier_or_not(fd, &info, &args_list);
 	va_end(args_list);
 	if (info.error)
-		return (ERROR_FT_PRINTF);
+		return (ERROR_FT_DPRINTF);
 	return (info.total_len);
 }
