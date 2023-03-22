@@ -4,6 +4,7 @@
 # include <signal.h>
 # include <stdbool.h>
 
+// both client and server
 # ifndef SLEEP_TIME
 #  define SLEEP_TIME	150
 # endif

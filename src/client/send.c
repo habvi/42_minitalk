@@ -19,14 +19,14 @@ static void	wait_correct_signal(void)
 
 static bool	send_char(const unsigned char byte, t_error_code *error_code)
 {
-	size_t	bit_shift;
+	size_t	bit_index;
 	size_t	bit_mask;
 	int		result;
 
-	bit_shift = 0;
-	while (bit_shift < CHAR_BIT)
+	bit_index = 0;
+	while (bit_index < CHAR_BIT)
 	{
-		bit_mask = 1U << bit_shift;
+		bit_mask = 1U << bit_index;
 		if ((byte & bit_mask) == 0)
 			result = kill(get_g_pid().server_pid, SIGUSR1);
 		else
@@ -37,7 +37,7 @@ static bool	send_char(const unsigned char byte, t_error_code *error_code)
 			return (false);
 		}
 		wait_correct_signal();
-		bit_shift++;
+		bit_index++;
 		usleep(SLEEP_TIME * 2);
 	}
 	return (true);

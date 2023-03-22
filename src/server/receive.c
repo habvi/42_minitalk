@@ -4,13 +4,13 @@
 #include "error.h"
 #include "server.h"
 
-static void	set_byte(unsigned char *byte, size_t *bit_shift)
+static void	set_byte(unsigned char *byte, size_t *bit_index)
 {
 	if (get_g_signal().signum == SIGUSR1)
 		;
 	else if (get_g_signal().signum == SIGUSR2)
-		*byte |= (1U << *bit_shift);
-	(*bit_shift)++;
+		*byte |= (1U << *bit_index);
+	(*bit_index)++;
 }
 
 static bool	send_back_per_bit(t_error_code *error_code)
@@ -37,9 +37,9 @@ static bool	send_end_signal_to_client(t_error_code *error_code)
 }
 
 static bool	send_back_per_byte(\
-			unsigned char *byte, size_t *bit_shift, t_error_code *error_code)
+			unsigned char *byte, size_t *bit_index, t_error_code *error_code)
 {
-	if (*bit_shift == CHAR_BIT)
+	if (*bit_index == CHAR_BIT)
 	{
 		if (*byte == '\0')
 		{
@@ -49,7 +49,7 @@ static bool	send_back_per_byte(\
 		else if (!put_byte(*byte, error_code))
 			return (false);
 		set_g_signum(0);
-		*bit_shift = 0;
+		*bit_index = 0;
 		*byte = 0;
 	}
 	return (true);
@@ -57,14 +57,14 @@ static bool	send_back_per_byte(\
 
 bool	receive_message(t_error_code *error_code)
 {
-	static size_t			bit_shift = 0;
+	static size_t			bit_index = 0;
 	static unsigned char	byte = 0;
 
-	set_byte(&byte, &bit_shift);
+	set_byte(&byte, &bit_index);
 	usleep(SLEEP_TIME);
 	if (!send_back_per_bit(error_code))
 		return (false);
-	if (!send_back_per_byte(&byte, &bit_shift, error_code))
+	if (!send_back_per_byte(&byte, &bit_index, error_code))
 		return (false);
 	return (true);
 }
