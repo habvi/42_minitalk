@@ -2,7 +2,7 @@
 #include "error.h"
 #include "client.h"
 
-t_pid	g_pid = {.server_pid = 0, .is_correct_server_pid = 0};
+volatile t_pid	g_pid = {.server_pid = 0, .is_correct_server_pid = 0};
 
 t_pid	get_g_pid(void)
 {

@@ -13,8 +13,8 @@ typedef enum e_error_code	t_error_code;
 
 typedef struct s_signal
 {
-	volatile sig_atomic_t	signum;
-	volatile sig_atomic_t	client_pid;
+	sig_atomic_t	signum;
+	sig_atomic_t	client_pid;
 }	t_signal;
 
 // args.c

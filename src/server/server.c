@@ -4,7 +4,7 @@
 #include "error.h"
 #include "server.h"
 
-t_signal	g_signal = {.signum = 0, .client_pid = 0};
+volatile t_signal	g_signal = {.signum = 0, .client_pid = 0};
 
 t_signal	get_g_signal(void)
 {
